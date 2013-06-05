@@ -1,0 +1,19 @@
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:columnCount="1" android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:alignmentMode="alignBounds">
+
+    <Spinner android:id="@+id/spinner"
+            android:layout_gravity="fill_horizontal"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"/>
+
+    <Button android:id="@+id/trigger"
+            android:onClick="onClick"
+            android:text="Ejecutar"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            />
+
+</GridLayout>

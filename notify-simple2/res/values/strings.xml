@@ -1,0 +1,9 @@
+<resources>
+
+    <string name="app_name">Tutorial Notification</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_main">NotificationTutorial</string>
+    <string name="title_activity_result">ResultActivity</string>
+
+</resources>

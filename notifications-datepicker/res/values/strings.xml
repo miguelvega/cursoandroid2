@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string
+        name="hello">Selecciona el tipo de dialogo.
+    </string>
+    <string
+        name="app_name">amdroid_datepicker</string>
+    <string
+        name="dialog_title">Precaución!</string>
+    <string
+        name="dialog_message">Seguro que deasea movel?</string>
+    <string
+        name="toastbutton_text">Toast Pantala</string>
+    <string
+        name="dialogbutton_text">Cuadra de Dialog</string>
+    <string
+        name="datedialogbutton_text">Ejecutar DatePickerDialog</string>
+</resources>
