@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">android-custom</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="lots_of_text">
+    Largo al factotum della città.
+    Presto a bottega che lalba è già.
+    Ah, che bel vivere, che bel piacere
+    per un barbiere di qualità! di qualità!
+
+	
+
+    Make way for the factotum of the city,
+    Hurrying to his shop since dawn is already here.
+    Ah, what a fine life, what fine pleasure
+    For a barber of quality!</string>
+    
+</resources>
