@@ -6,6 +6,7 @@ bin
 .metadata
 gen
 libs
+*.priv
 
 #idea
 *.iml
