@@ -4,10 +4,10 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
+    <LinearLayout 
+        android:layout_width="match_parent" android:layout_height="wrap_content">
+        
+        
         <ImageView
             android:id="@+id/notification_layout_icon_img"
             android:layout_width="wrap_content"
@@ -39,7 +39,7 @@
                     android:id="@+id/imageView1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drxawable/star" />
+                    android:src="@drawable/star" />
 
                 <ImageView
                     android:id="@+id/imageView2"
