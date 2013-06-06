@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">sensors-compass</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name">sensor-brujula</string>
+    <string name="action_settings">COnfig</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_image_compass">Brujula</string>
 
 </resources>

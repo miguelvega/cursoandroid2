@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="intro">Capturar Foto y Recortar</string>
+    <string name="app_name">Capturar y Recortar</string>
+    <string name="picture">Foto</string>
+    <string name="capture">Iniciar Camera</string>
+
+</resources>
