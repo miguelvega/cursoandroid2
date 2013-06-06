@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<!--
+  Google HTML5 slide template
+
+  Authors:
+           Miguel Vega (contents)
+           Luke Mahé (code)
+           Marcin Wichary (code and design)
+           
+           Dominic Mazzoni (browser compatibility)
+           Charles Chen (ChromeVox support)
+
+  URL: http://code.google.com/p/html5slides/
+-->
+
+<html>
+<head>
+    <title>Presentation</title>
+
+    <meta charset='utf-8'>
+
+    <!--
+    <meta charset='ISO-8859-1'>
+    -->
+    <script
+            src='lib/slides.js'></script>
+</head>
+<style type="text/css">
+    a {
+        text-decoration: none;
+    }
+
+    article h1 {
+        line-height: 1.5;
+    }
+
+    ol li::before {
+        display: none;
+    }
+
+    body article.agenda {
+        line-height: 1.5;
+    }
+
+    .agenda .current {
+        font-weight: bold;
+        color: black;
+    }
+
+    .https {
+        color: #bbbbbb;
+    }
+
+    .request {
+        color: black;
+    }
+
+    article.agenda:not(.start) {
+        color: #ccc;
+    }
+
+    article.biglogo {
+        background: white url(images/big-logo.png) 50% 50% no-repeat;
+
+        background-size: 800px;
+    }
+
+    .slides > article:not(.nobackground):not(.biglogo) {
+        background: url(images/colorbar.png) 0 610px repeat-x, url(images/big-logo.png) 640px 625px no-repeat;
+
+        background-size: 100%, 225px;
+
+        background-color: white;
+    }
+
+    .slides.layout-widescreen > article:not(.nobackground):not(.biglogo),
+    .slides.layout-faux-widescreen > article:not(.nobackground):not(.biglogo) {
+        background-position-x: 0, 840px;
+    }
+    .build li i{
+        color: #1ec7e6;
+    }
+</style>
+<body style='display: none'>
+
+<!--<section class='slides layout-regular template-default'>-->
+<!--<section class='slides'>-->
+<section class='slides layout-widescreen'>
+
+<!-- Your slides (<article>s) go here. Delete or comment out the
+     slides below. -->
+<article class='biglogo'>
+</article>
+
+<article>
+    <h1>
+        Desarrollo de Aplicaciones Android
+        <br>
+        "6. Georeferenciación y Mapas"
+    </h1>
+
+    <p>
+        Miguel Vega
+        <br>
+        Mayo, 2013
+    </p>
+</article>
+
+<article>
+    <h3>Agenda</h3>
+    <ul class="build">
+        <li>SIG</li>
+        <li>Google Maps API</li>
+        <li>Sensores</li>
+        <li>Servicios de georeferenciación</li>
+        <li>Otras APIs</li>
+    </ul>
+</article>
+<!--
+END, introduction
+-->
+
+<article>
+    <h2>
+        Desarrollo de aplicaciones Android. <span style="font-size: 50px; color: #465886;">Georeferenciación y Mapas</span>
+    </h2>
+</article>
+
+<article>
+    <h3>Sistemas de Información Geográfica</h3>
+
+    <ul class="build">
+        <li>Basados en modelos matemáticos</li>
+        <li>Proyecciones y sistemas de coordenadas</li>
+        <li>Análisis espacial</li>
+        <li>Se utilizan dos tipos de formatos basicamente, vector y raster</li>
+    </ul>
+</article>
+
+<article>
+    <h3>Sistemas de Información Geográfica</h3>
+
+    <ul class="build">
+        <img src="http://www.esri.com/news/arcnews/summer02articles/summer02gifs/p4p1-lg.gif">
+    </ul>
+</article>
+
+<article>
+    <h3>Topoogía</h3>
+
+    <ul class="build">
+        <img src="http://3.bp.blogspot.com/-MJpOnefJOMQ/T0qfgJ6MzDI/AAAAAAAACFg/Y4SwmLA_8A8/s640/topology.jpg"/>
+        <img src="http://www.rockware.com/assets/products/189/overview/lobby/arcviewfeat4b.gif"/>
+    </ul>
+</article>
+
+<article>
+    <h3>Open Geospatial Consortium</h3>
+
+    <ul class="build">
+        <img src="http://upload.wikimedia.org/wikipedia/commons/2/25/Geoservices_server_with_apps.png"/>
+    </ul>
+</article>
+
+<article>
+    <h3>Google Maps API</h3>
+
+    <ul class="build">
+        <li>Permite a los usuarios explorar el mundo a través de mapas</li>
+        <img src="http://developer.android.com/images/google/gps-maps.png"/>
+        <li>Existen dos versiones 1 y 2</li>
+    </ul>
+</article>
+<article>
+    <h3>Maps API V1, Android Location API</h3>
+
+    <ul class="build">
+        <li>Se puede utilizar el GPS ó GSM ó Redes WiFi</li>
+        <li>Location Manager</li>
+        <li>location providers</li>
+        <li>registrar ubicación</li>
+        <li>actualizar listener</li>
+        <li>alertas de proximidad</li>
+    </ul>
+</article>
+<article>
+    <h3>Location Provider</h3>
+
+    <ul class="build">
+        <li>Provee la información acerca de la ubicación actual, Location.java</li>
+        <li>Los proveedores de ubicación, son los siguientes</li>
+        <li>
+            <table>
+                <tr>
+                    <th>Proveedor</th>
+                    <th>Descripcion</th>
+                </tr>
+                <tr>
+                    <td>Red</td>
+                    <td>Utiliza la red móvil o WiFi, para determinar la ubicación. Es más preciso en ambientes cerrados</td>
+                </tr>
+                <tr>
+                    <td>GPS</td>
+                    <td>Utiliza los satélites para obtener la ubicación, mucha más precisión que los demás</td>
+                </tr>
+            </table>
+        </li>
+    </ul>
+</article>
+<article>
+    <h3>Obtención de LocationProvider</h3>
+
+    <ul class="build">
+        <pre>
+            Criteria
+        </pre>
+        <li>Se define como el proveedor debe ser seleccionado</li>
+        <li>Se registra un LocationListener a través del LocationManager para obtener las actualizaciones de las ubicaciones</li>
+    </ul>
+</article>
+
+
+<article>
+    <h2>
+        Demostración (un servicio,ejecutarlo y mostrar que esta funcionando)
+    </h2>
+</article>
+
+<article>
+    <h3>Uso de GPS</h3>
+
+    <ul class="build">
+        <li>Se debe definir los siguientes permisos:</li>
+        <li>
+            <ul>
+                <li>ACCESS_FINE_LOCATION</li>
+                <li>ACCESS_COARSE_LOCATION</li>
+            </ul>
+        </li>
+        <li>EL usuario define si el GPS esta disponible o no</li>
+        <pre>
+LocationManager service = (LocationManager) getSystemService(LOCATION_SERVICE);
+boolean enabled = service.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+// Check if enabled and if not send user to the GSP settings
+if (!enabled) {
+  Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+  startActivity(intent);
+}
+        </pre>
+    </ul>
+</article>
+
+
+<article>
+    <h3>Google Maps API v.2</h3>
+
+    <ul class="build">
+        <li>Poseer una cuenta Google</li>
+        <li>Crear una llave para utilizarla y cargarla en la consola</li>
+        <li>Generar el HAS de un keystore</li>
+        <li>Otorgar permisos en consola</li>
+    </ul>
+</article>
+
+<article class="small">
+    <h3>Descargar Google Play Services</h3>
+
+    <ul class="build">
+        <li>
+            <img src="http://www.vogella.com/articles/AndroidGoogleMaps/images/xinstall_googleplayservices10.png.pagespeed.ic.xWyobEaH8M.png">
+        </li>
+    </ul>
+</article>
+
+<article class="smaller">
+    <h3>Crear un proyecto en Google</h3>
+
+    <ul class="build">
+        <li><a href="https://code.google.com/apis/console">Consola de Google</a></li>
+        <li>
+            <img src="http://umut.tekguc.info/sites/default/files/articles/createAPIsproject.PNG">
+        </li>
+    </ul>
+</article>
+
+<article>
+    <h3>Configurar los servicios</h3>
+
+    <ul class="build">
+        <li>En servicios se encuentran todos los servicios que provee Google</li>
+        <li>
+            <img src="http://umut.tekguc.info/sites/default/files/articles/googleapisServices.PNG">
+        </li>
+        <li>
+            <img src="http://umut.tekguc.info/sites/default/files/articles/googlemapsandroidapiv2.PNG">
+        </li>
+    </ul>
+</article>
+
+<article>
+    <h3>Configurar API Access</h3>
+
+    <ul class="build">
+        <li>Donde se configuran las llaves públicas y hashes</li>
+        <li>
+            <img src="http://umut.tekguc.info/sites/default/files/articles/googleapisAPIaccess.PNG">
+        </li>
+        <li>Crear nueva llave Anroid</li>
+        <li>
+            <img src="http://umut.tekguc.info/sites/default/files/articles/CreateNewNadroidKey.PNG">
+        </li>
+    </ul>
+</article>
+
+<article class="smaller">
+    <h3>Configurar API Access</h3>
+
+    <ul class="build">
+        <li>Encontrar la llave generada por defecto</li>
+        <li>
+            <img src="http://umut.tekguc.info/sites/default/files/articles/buildpath.PNG">
+        </li>
+        <li>Ejecutar desde linea de comandos</li>
+        <li>
+            <b>keytool -v -list -keystore "&lt;debug.keystore path&gt;</b>
+        </li>
+
+        <li>Finalmente...</li>
+        <li>
+            <img src="http://umut.tekguc.info/sites/default/files/articles/generatedAPI.PNG">
+        </li>
+    </ul>
+</article>
+
+
+<article>
+    <h2>
+        Demostración
+    </h2>
+</article>
+
+
+<article>
+    <h2>Sensores</h2>
+    <ul class="builder">
+        <li>Para agregar funciones ricas en ubicación y movimiento</li>
+        <li>GPS</li>
+        <li>Acelerómetro</li>
+        <li>Giroscópio</li>
+        <li>Temperatura</li>
+        <li>Barómetro</li>
+        <li>más...</li>
+    </ul>
+</article>
+
+<article>
+    <h2>SensorManager</h2>
+    <ul class="builder">
+        <pre>
+getSystemService(SERNSOR_SERVICE)
+        </pre>
+        <li>Sensor.TYPE_GYROSCOPE</li>
+        <li>Sensor.TYPE_MAGNETIC_FIELD</li>
+        <li>Sensor.TYPE_ORIENTATION</li>
+        <li>Sensor.TYPE_ACCELEROMETER</li>
+    </ul>
+</article>
+<article>
+    <h2>SensorListener</h2>
+    <ul class="builder">
+        <li>SensorEventListener</li>
+        <li>Como cualquier listener ya visto anteriormente, este se encarga de estar atento a los cambios del sensor y tratarlos</li>
+        <li>Para evitar gasto de bateria, registrar el sensor en el método <i>onResume</i></li>
+        <li>Asi también para quitarlo del servicio, utilizar <i>onPause()</i></li>
+    </ul>
+</article>
+
+
+<article>
+    <div style="text-align: center; margin-top: 100px;">
+        <p>em@il:</p>
+
+        <p><b>miguelvega.name@gmail.com</b></p>
+
+        <p/>
+    </div>
+</article>
+
+<article>
+    <h2>Preguntas?</h2>
+</article>
+
+<article class="biglogo">
+</article>
+</section>
+</body>
+</html>

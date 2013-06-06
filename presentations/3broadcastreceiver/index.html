@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<!--
+  Google HTML5 slide template
+
+  Authors: Miguel Vega (contents)
+           Luke Mahé (code)
+           Marcin Wichary (code and design)
+           
+           Dominic Mazzoni (browser compatibility)
+           Charles Chen (ChromeVox support)
+
+  URL: http://code.google.com/p/html5slides/
+-->
+
+<html>
+<head>
+    <title>Presentation</title>
+
+    <meta charset='utf-8'>
+
+    <!--
+    <meta charset='ISO-8859-1'>
+    -->
+    <script
+            src='lib/slides.js'></script>
+</head>
+<style type="text/css">
+    a {
+        text-decoration: none;
+    }
+
+    article h1 {
+        line-height: 1.5;
+    }
+
+    ol li::before {
+        display: none;
+    }
+
+    body article.agenda {
+        line-height: 1.5;
+    }
+
+    .agenda .current {
+        font-weight: bold;
+        color: black;
+    }
+
+    .https {
+        color: #bbbbbb;
+    }
+
+    .request {
+        color: black;
+    }
+
+    article.agenda:not(.start) {
+        color: #ccc;
+    }
+
+    article.biglogo {
+        background: white url(images/big-logo.png) 50% 50% no-repeat;
+
+        background-size: 800px;
+    }
+
+    .slides > article:not(.nobackground):not(.biglogo) {
+        background: url(images/colorbar.png) 0 610px repeat-x, url(images/big-logo.png) 640px 625px no-repeat;
+
+        background-size: 100%, 225px;
+
+        background-color: white;
+    }
+
+    .slides.layout-widescreen > article:not(.nobackground):not(.biglogo),
+    .slides.layout-faux-widescreen > article:not(.nobackground):not(.biglogo) {
+        background-position-x: 0, 840px;
+    }
+</style>
+<body style='display: none'>
+
+<!--<section class='slides layout-regular template-default'>-->
+<!--<section class='slides'>-->
+<section class='slides layout-widescreen'>
+
+<!-- Your slides (<article>s) go here. Delete or comment out the
+     slides below. -->
+<article class='biglogo'>
+</article>
+
+<article>
+    <h1>
+        Desarrollo de Aplicaciones Android
+        <br>
+        "Recepción de Eventos"
+    </h1>
+
+    <p>
+        Miguel Vega
+        <br>
+        Mayo, 2013
+    </p>
+</article>
+
+<article>
+    <h3>Agenda</h3>
+    <ul class="build">
+        <li>BroadcastReceiver</li>
+        <li>Configuración estática y dinámica</li>
+        <li>Broadcast normales y ordenados</li>
+        <li>Eventos Nativos de Broadcast</li>
+    </ul>
+</article>
+<!--
+END, introduction
+-->
+
+<article>
+    <h2>
+        Desarrollo de aplicaciones Android. <span style="font-size: 50px; color: #465886;">Recepción de Eventos</span>
+    </h2>
+</article>
+
+<article class="agenda">
+    <h3>Recepción de Eventos</h3>
+    <ol>
+        <li class="current"><strong>BroadcastReceiver</strong></li>
+        <li class="current">Configuración estática y dinámica</li>
+        <li class="current">Broadcast normales y ordenados</li>
+        <li class="current">Envío del mensaje con y sin ordenamiento</li>
+    </ol>
+</article>
+
+<article>
+    <h3>BroadcastReceiver</h3>
+
+    <ul class="build">
+        <li>La clase básica para la recepción de intents enviados por sendBroadcast</li>
+        <li>LocalBroadcastManager, para la misma aplicación</li>
+        <li>Context.registerReceiver()</li>
+        <img src="images/tip.jpeg"/>
+        <li>Si se registra en <i>Activity.onResume()</i>, se debe quitar del registro en <i>Activity.onPause(), para evitar overhead</i></li>
+        <li>Normal Broadcasts, enviadas con <strong>Context.sendBroadcast()</strong></li>
+        <li>Ordered Broadcasts, enviadas con <strong>Context.sendOrderedBroadcast()</strong></li>
+    </ul>
+</article>
+
+<article>
+    <h3>Ciclo de vida</h3>
+
+    <ul class="build">
+        <li>Sólo es válido durante el llamado al método <i>onReceive(Context, Intent)</i></li>
+        <li>Por ende, no se podria ejecutar procesos asíncronos</li>
+        <li>... para lograr esto, se debe utilizar la API de NotificationManager > Context.startService()</li>
+        <li>Desde Android 3.1, se excluyen por defecto aquellos BroadcastReceiver de recibir intents, si y solo si se detiene explicitamente o nuca se inici'o el receiver</li>
+    </ul>
+</article>
+
+<article>
+    <h2>
+        Demostración
+    </h2>
+</article>
+
+
+<article>
+    <h3>Qué eventos puedo capturar?</h3>
+
+    <ul class="build">
+        <li>android.provider.Telephony.SMS_RECEIVED Evento de mensaje recibido.                    </li>
+        <li>android.intent.action.PHONE_STATE Evento de llamadas recibidas.                        </li>
+        <li>android.intent.action.AIRPLANE_MODE Evento modo vuelo.                                 </li>
+        <li>android.intent.action.BATTERY_LOW Evento batería baja.                                 </li>
+        <li>android.intent.action.BOOT_COMPLETED Evento de inicio del sistema operativo.           </li>
+        <li>android.intent.action.SCREEN_OFF Evento bloqueo de pantalla.                           </li>
+        <li>android.intent.action.SCREEN_ON Evento desbloqueo de pantalla.                         </li>
+        <li>android.bluetooth.intent.action.DISCOVERY_STARTED Evento comienzo de escáner Bluetooth.</li>
+        <li>android.bluetooth.intent.action.ENABLED Evento Bluetooth habilitado.                   </li>
+        <li>... muchos mas...</li>
+    </ul>
+</article>
+
+<article>
+    <h3>Además</h3>
+
+    <ul class="build">
+        <li>A continuación se muetsra un BroadcastReceiver el cual se registra a una accion personalizada</li>
+        <pre>
+&lt;receiver android:name="MyReceiver" &gt;
+    &lt;intent-filter&gt;
+        &lt;action android:name="org.mvp.labs.android.mybroadcast" /&gt;
+    &lt;/intent-filter&gt;
+&lt;/receiver&gt;
+        </pre>
+
+        <li>Asi llamariamos  nuestro broadcast de la siguiente manera:</li>
+        <pre>
+Intent intent = new Intent();
+intent.setAction("de.vogella.android.mybroadcast");
+sendBroadcast(intent);
+        </pre>
+        <img src="images/tip.jpeg"/>
+        <li>El método sendBroadCast() no espera la respuesta de los receptores</li>
+    </ul>
+</article>
+
+<article class="smaller">
+    <h3>Registro dinámico de Receptores</h3>
+
+    <ul class="build">
+        <li>Compartir datos con otras personas: Facebook, Google+, Gmail, Twitter.</li>
+
+        <pre>
+Intent intent = new Intent(Intent.ACTION_SEND);
+intent.setType("text/plain");
+intent.putExtra(android.content.Intent.EXTRA_TEXT, "News for you!");
+startActivity(intent);
+        </pre>
+
+        <li>El receptor</li>
+
+        <pre>
+Bundle extras = getIntent().getExtras();
+if (extras == null) {
+    return;
+    }
+// Get data via the key
+String value1 = extras.getString(Intent.EXTRA_TEXT);
+if (value1 != null) {
+  // Do something with the data
+}
+        </pre>
+    </ul>
+</article>
+
+<article>
+    <div style="text-align: center; margin-top: 100px;">
+        <p>em@il:</p>
+
+        <p><b>miguelvega.name@gmail.com</b></p>
+
+        <p/>
+    </div>
+</article>
+
+<article>
+    <h2>Preguntas?</h2>
+</article>
+
+<article class="biglogo">
+</article>
+</section>
+</body>
+</html>

@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<!--
+  Google HTML5 slide template
+
+  Authors: Miguel Vega (contents)
+           Luke Mahé (code)
+           Marcin Wichary (code and design)
+           
+           Dominic Mazzoni (browser compatibility)
+           Charles Chen (ChromeVox support)
+
+  URL: http://code.google.com/p/html5slides/
+-->
+
+<html>
+<head>
+    <title>Presentation</title>
+
+    <meta charset='utf-8'>
+
+    <script src='lib/slides.js'></script>
+</head>
+<style type="text/css">
+    a {
+        text-decoration: none;
+    }
+
+    article h1 {
+        line-height: 1.5;
+    }
+
+    ol li::before {
+        display: none;
+    }
+
+    body article.agenda {
+        line-height: 1.5;
+    }
+
+    .agenda .current {
+        font-weight: bold;
+        color: black;
+    }
+
+    .https {
+        color: #bbbbbb;
+    }
+
+    .request {
+        color: black;
+    }
+
+    article.agenda:not(.start) {
+        color: #ccc;
+    }
+
+    article.biglogo {
+        background: white url(images/big-logo.png) 50% 50% no-repeat;
+
+        background-size: 800px;
+    }
+
+    .slides > article:not(.nobackground):not(.biglogo) {
+        background: url(images/colorbar.png) 0 610px repeat-x, url(images/big-logo.png) 640px 625px no-repeat;
+
+        background-size: 100%, 225px;
+
+        background-color: white;
+    }
+
+    .slides.layout-widescreen > article:not(.nobackground):not(.biglogo),
+    .slides.layout-faux-widescreen > article:not(.nobackground):not(.biglogo) {
+        background-position-x: 0, 840px;
+    }
+</style>
+<body style='display: none'>
+
+<!--<section class='slides layout-regular template-default'>-->
+<!--<section class='slides'>-->
+<section class='slides layout-widescreen'>
+
+<!-- Your slides (<article>s) go here. Delete or comment out the
+     slides below. -->
+<article class='biglogo'>
+</article>
+
+<article>
+    <h1>
+        Desarrollo de Aplicaciones
+        <br>
+        "Android"
+    </h1>
+
+    <p>
+        Miguel Vega
+        <br>
+        Mayo, 2013
+    </p>
+</article>
+
+<article>
+    <h3>Contenido del Curso</h3>
+    <ul class="build">
+        <li>
+            <b>1. Introducción</b>
+            <ul class="build">
+                <li>El Sistema Operativo</li>
+                <li>Versiones</li>
+                <li>Arquitectura</li>
+                <li>IDEs</li>
+                <li>Java</li>
+                <li>Version Control</li>
+                <li>Android SDK</li>
+                <li>Posibilidades</li>
+            </ul>
+        </li>
+    </ul>
+</article>
+<article>
+    <h3>Contenido del Curso</h3>
+    <ul class="build">
+        <li>
+            <b>2. Interactuando con Componentes</b>
+            <ul class="build">
+                <li>Intent</li>
+                <li>Intent Filters</li>
+                <li>Intent Resolution</li>
+                <li>Intent Nativos</li>
+            </ul>
+        </li>
+    </ul>
+</article>
+<article>
+    <h3>Contenido del Curso</h3>
+    <ul class="build">
+        <li>
+            <b>3. Recepción de eventos</b>
+            <ul class="build">
+                <li>BroadcastReceiver</li>
+                <li>Configuración estática y dinámica</li>
+                <li>Envío del mensaje con y sin ordenamiento</li>
+                <li>Eventos Nativos de Broadcast</li>
+            </ul>
+        </li>
+    </ul>
+</article>
+<article>
+    <h3>Contenido del Curso</h3>
+    <ul class="build">
+        <li>
+            <b>4. Servicio de Notificación</b>
+            <ul class="build">
+                <li>Toasts</li>
+                <li>Alert</li>
+                <li>Notification</li>
+                <li>Ciclo de vida</li>
+            </ul>
+        </li>
+    </ul>
+</article>
+<article>
+    <h3>Contenido del Curso</h3>
+    <ul class="build">
+        <li>
+            <b>5. Procesamiento background</b>
+            <ul class="build">
+                <li>Creación y ejecución de Servicios</li>
+                <li>Conexión a Servicios Existentes</li>
+                <li>Cloud To Device Messaging (C2DM) *</li>
+                <li>Threads, Handlers, AsyncTask</li>
+            </ul>
+        </li>
+    </ul>
+</article>
+<article>
+    <h3>Contenido del Curso</h3>
+    <ul class="build">
+        <li>
+            <b>6. Georeferenciación y Mapas</b>
+            <ul class="build">
+                <li>Google Maps API</li>
+                <li>Sensores</li>
+                <li>Geocode y Reverse Geocode</li>
+                <li>Otras APIs</li>
+            </ul>
+        </li>
+    </ul>
+</article>
+<article>
+    <h3>Contenido del Curso</h3>
+    <ul class="build">
+        <li>
+            <b>7. Multimedia</b>
+            <ul class="build">
+                <li>Camara</li>
+                <li>Audio</li>
+                <li>Vistazo a Augmented Reallity</li>
+            </ul>
+        </li>
+    </ul>
+</article>
+<article>
+    <h3>Contenido del Curso</h3>
+    <ul class="build">
+        <li>
+            <b>8. Acceso a Data</b>
+            <ul class="build">
+                <li>Preferencias/Framework</li>
+                <li>Almacenamiento interno y externo</li>
+                <li>SQLite</li>
+                <li>Content Providers</li>
+                <li>Web Services</li>
+            </ul>
+        </li>
+    </ul>
+</article>
+<article>
+    <h3>Contenido del Curso</h3>
+    <ul class="build">
+        <li>
+            <b>9. Mejorando el desarrollo</b>
+            <ul class="build">
+                <li>Fragments</li>
+                <li>Debugging</li>
+                <li>Interactuando con dispositivos reales</li>
+            </ul>
+        </li>
+    </ul>
+</article>
+<article>
+    <h3>Contenido del Curso</h3>
+    <ul class="build">
+        <li>
+            <b>10. Proyecto de Curso</b>
+            <ul class="build">
+                <li>Conectividad</li>
+                <li>Interactividad</li>
+                <li>Sensor (acelerómetro, giroscopio, temperatura, luz, campo magnético, proximidad, etc)</li>
+            </ul>
+        </li>
+    </ul>
+</article>
+<!--
+END, introduction
+-->
+
+<article>
+    <h2>
+        Desarrollo de aplicaciones <span style="font-size: 50px; color: #465886;">Android</span>
+    </h2>
+</article>
+
+<article class="agenda">
+    <h3>Introducción</h3>
+    <ol>
+        <li class="current"><strong>EL sistema operativo</strong></li>
+        <li>Versiones</li>
+        <li>Arquitectura</li>
+        <li>IDEs</li>
+        <li>Java</li>
+        <li>Version Control</li>
+        <li>Android SDK</li>
+        <li>Posibilidades</li>
+    </ol>
+</article>
+
+<article>
+    <h3>Android OS</h3>
+
+    <!--<iframe style="height:60%; width:85%; top:10%; position:absolute;" src="http://developer.android.com/tools/workflow/index.html">-->
+    <!--</iframe>-->
+
+    <iframe style="height:60%; width:85%; top:10%; position:absolute;" src="images/developing_overview.png">
+    </iframe>
+</article>
+
+<article class="smaller">
+    <h3>Versiones</h3>
+
+    <div style="width: 60%; float: left">
+        <ul>
+            <li class="toclevel-2"><a href="#Android_1.0_.28API_level_1.29"><span class="tocnumber">2.1</span> <span class="toctext">Android 1.0 (API level 1)</span></a></li>
+            <li class="toclevel-2"><a href="#Android_1.1_.28API_level_2.29"><span class="tocnumber">2.2</span> <span class="toctext">Android 1.1 (API level 2)</span></a></li>
+            <li class="toclevel-2"><a href="#Android_1.5_Cupcake_.28API_level_3.29"><span class="tocnumber">2.3</span> <span class="toctext">Android 1.5 Cupcake (API level 3)</span></a></li>
+            <li class="toclevel-2"><a href="#Android_1.6_Donut_.28API_level_4.29"><span class="tocnumber">2.4</span> <span class="toctext">Android 1.6 Donut (API level 4)</span></a></li>
+            <li class="toclevel-2"><a href="#Android_2.0_Eclair_.28API_level_5.29"><span class="tocnumber">2.5</span> <span class="toctext">Android 2.0 Eclair (API level 5)</span></a></li>
+            <li class="toclevel-2"><a href="#Android_2.0.1_Eclair_.28API_level_6.29"><span class="tocnumber">2.6</span> <span class="toctext">Android 2.0.1 Eclair (API level 6)</span></a></li>
+            <li class="toclevel-2"><a href="#Android_2.1_Eclair_.28API_level_7.29"><span class="tocnumber">2.7</span> <span class="toctext">Android 2.1 Eclair (API level 7)</span></a></li>
+            <li class="toclevel-2"><a href="#Android_2.2.E2.80.932.2.3_Froyo_.28API_level_8.29"><span class="tocnumber">2.8</span> <span class="toctext">Android 2.2–2.2.3 Froyo (API level 8)</span></a></li>
+            <li class="toclevel-2"><a href="#Android_2.3.E2.80.932.3.2_Gingerbread_.28API_level_9.29"><span class="tocnumber">2.9</span> <span class="toctext">Android 2.3–2.3.2 Gingerbread (API level 9)</span></a></li>
+            <li class="toclevel-2"><a href="#Android_2.3.3.E2.80.932.3.7_Gingerbread_.28API_level_10.29"><span class="tocnumber">2.10</span> <span class="toctext">Android 2.3.3–2.3.7 Gingerbread (API level 10)</span></a></li>
+            <li class="toclevel-2"><a href="#Android_3.0_Honeycomb_.28API_level_11.29"><span class="tocnumber">2.11</span> <span class="toctext">Android 3.0 Honeycomb (API level 11)</span></a></li>
+            <li class="toclevel-2"><a href="#Android_3.1_Honeycomb_.28API_level_12.29"><span class="tocnumber">2.12</span> <span class="toctext">Android 3.1 Honeycomb (API level 12)</span></a></li>
+            <li class="toclevel-2"><a href="#Android_3.2_Honeycomb_.28API_level_13.29"><span class="tocnumber">2.13</span> <span class="toctext">Android 3.2 Honeycomb (API level 13)</span></a></li>
+            <li class="toclevel-2"><a href="#Android_4.0.E2.80.934.0.2_Ice_Cream_Sandwich_.28API_level_14.29"><span class="tocnumber">2.14</span> <span class="toctext">Android 4.0–4.0.2 Ice Cream Sandwich (API level 14)</span></a></li>
+            <li class="toclevel-2"><a href="#Android_4.0.3.E2.80.934.0.4_Ice_Cream_Sandwich_.28API_level_15.29"><span class="tocnumber">2.15</span> <span class="toctext">Android 4.0.3–4.0.4 Ice Cream Sandwich (API level 15)</span></a></li>
+            <li class="toclevel-2"><a href="#Android_4.1_Jelly_Bean_.28API_level_16.29"><span class="tocnumber">2.16</span> <span class="toctext">Android 4.1 Jelly Bean (API level 16)</span></a></li>
+            <li class="toclevel-2"><a href="#Android_4.2_Jelly_Bean_.28API_level_17.29"><span class="tocnumber">2.17</span> <span class="toctext">Android 4.2 Jelly Bean (API level 17)</span></a></li>
+        </ul>
+    </div>
+    <div style="width: 39%; float: right">
+        <img src="images/AndroidAll-scaled.png">
+    </div>
+</article>
+
+
+
+<article>
+    <h3>Versiones</h3>
+    <!--<ol>-->
+        <!--<li>Cargar la Library de la API de Mapas</li>-->
+        <!--<li>Agregar al arranque: &libraries=places</li>-->
+        <!--<li>Colocar el parámetro <i>sensor</i></li>-->
+    <!--</ol>-->
+    <!--<pre>-->
+<!--https://maps.googleapi.com/maps/api/place/search/json-->
+    <!--?location=44.35,-122.67-->
+    <!--&radius=50-->
+    <!--&sensor=true-->
+    <!--&key=AIzaSyAM6iLUQxAmMCeX2aqfHrK6IDuqx_vaINo-->
+                <!--</pre>-->
+
+    <div style="width: 100%; padding-left: 2em">
+        <img src="images/Android-dist-by-dessert.png">
+    </div>
+</article>
+
+<article>
+    <h3>IDEs<span style="font-size: 5px">demo none</span></h3>
+    <div style="width: 40%; float: left">
+        <img src="images/android-studio.png">
+        IntellijIDEA, Android Studio
+    </div>
+    <div style="width: 59%; float: right">
+        <img src="images/eclipse-android.png">
+        Eclipse
+    </div>
+</article>
+
+<article>
+    <h3>Java</h3>
+    <div>
+        <img src="images/java_plus_android.png">
+    </div>
+    <ul class="build">
+        <li>Reflection</li>
+        <li>Annotation</li>
+        <li>Collections</li>
+    </ul>
+</article>
+
+<article>
+    <h3>Android SDK</h3>
+
+    <table style="font-size: smaller">
+        <tbody><tr><th>Package</th><th>File Location</th></tr>
+        <tr>
+            <td><a href="/tools/sdk/tools-notes.html">SDK Tools</a></td>
+            <td><code>&lt;sdk&gt;/tools/</code></td></tr>
+        <tr><td>SDK Platform-tools</td>
+            <td><code>&lt;sdk&gt;/platform-tools/</code></td>
+        </tr>
+
+        <tr>
+            <td>Documentation</td>
+
+            <td><code>&lt;sdk&gt;/docs/</code></td>
+        </tr>
+        <tr><td>SDK Platform</td>
+
+            <td><code>&lt;sdk&gt;/platforms/&lt;android-version&gt;/</code></td>
+        </tr>
+        <tr>
+            <td>System Images</td>
+
+            <td><code>&lt;sdk&gt;/platforms/&lt;android-version&gt;/</code></td>
+        </tr>
+        <tr>
+            <td>Sources for Android SDK</td>
+
+            <td><code>&lt;sdk&gt;/sources/</code></td>
+        </tr>
+        <tr>
+            <td><a href="/tools/samples/index.html">Samples for SDK</a></td>
+
+            <td><code>&lt;sdk&gt;/platforms/&lt;android-version&gt;/samples/</code></td>
+        </tr>
+        <tr>
+            <td><a href="http://developers.google.com/android">Google APIs</a></td>
+
+            <td><code>&lt;sdk&gt;/add-ons/</code></td>
+        </tr>
+
+        <tr>
+            <td><a href="/tools/extras/support-library.html">Android Support</a></td>
+
+            <td><code>&lt;sdk&gt;/extras/android/support/</code></td>
+        </tr>
+        </tbody>
+    </table>
+</article>
+
+<article>
+    <h3>Posibilidades</h3>
+    
+    <img src="images/android-social.jpg" >
+    <img src="images/banking-android.jpg" >
+    <img src="images/layar_android_application.jpg" >
+    <img src="images/remote-control.jpg" >
+</article>
+
+<!--
+<article>
+    <h3>Miguel Angel Vega<br/>
+        Ingeniero de Software, Tecnología Java
+    </h3>
+    <div style="text-align: center; margin-top: 200px;">
+        <p>em@il:</p>
+        <p><b>mikevegap@gmail.com</b></p>
+    </div>
+</article>
+-->
+
+<article>
+    <h2>
+        Miguel Vega<br/>Ingeniero de Software / Java / OpenSource
+    </h2>
+    <div style="text-align: center; margin-top: 100px;">
+        <p>em@il:</p>
+        <p><b>miguelvega.name@gmail.com</b></p>
+        <p/>
+    </div>
+</article>
+
+<article>
+    <h2>Preguntas?</h2>
+</article>
+
+<article class="biglogo">
+</article>
+</section>
+</body>
+</html>

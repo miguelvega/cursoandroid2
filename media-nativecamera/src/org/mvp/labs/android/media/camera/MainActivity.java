@@ -2,19 +2,25 @@ package org.mvp.labs.android.media.camera;
 
 
 import java.io.File;
+import java.io.IOException;
 
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 
 import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 
 import android.content.Intent;
+import android.database.Cursor;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import android.graphics.Matrix;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -22,103 +28,279 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends Activity implements OnClickListener{
-	//keep track of camera capture intent
-	final int CAMERA_CAPTURE = 1;
-	//keep track of cropping intent
-	final int PIC_CROP = 2;
-	//captured picture uri
-	private Uri picUri;
+public class MainActivity extends Activity{
+	final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1;
 
-	/** Called when the activity is first created. */
+
+	Uri imageUri                      = null;
+	static TextView imageDetails      = null;
+	public  static ImageView showImg  = null;
+	MainActivity CameraActivity = null;
+
+
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+		CameraActivity = this;
 
-		//retrieve a reference to the UI button
-		Button captureBtn = (Button)findViewById(R.id.capture_btn);
-		//handle button clicks
-		captureBtn.setOnClickListener(this);
+		imageDetails = (TextView) findViewById(R.id.imageDetails);
+
+		showImg = (ImageView) findViewById(R.id.showImg);
+
+		final Button photo = (Button) findViewById(R.id.photo);
+
+
+
+		photo.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+
+				/*************************** Camera Intent Start ************************/  
+
+				// Define the file-name to save photo taken by Camera activity
+
+				String fileName = "Camera_Example.jpg";
+
+				// Create parameters for Intent with filename
+
+				ContentValues values = new ContentValues();
+
+				values.put(MediaStore.Images.Media.TITLE, fileName);
+
+				values.put(MediaStore.Images.Media.DESCRIPTION,"Image capture by camera");
+
+				// imageUri is the current activity attribute, define and save it for later usage  
+
+				imageUri = getContentResolver().insert(
+						MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+
+				/**** EXTERNAL_CONTENT_URI : style URI for the "primary" external storage volume. ****/
+
+
+				// Standard Intent action that can be sent to have the camera
+				// application capture an image and return it.  
+
+				Intent intent = new Intent( MediaStore.ACTION_IMAGE_CAPTURE );
+
+				intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+
+				intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+
+				startActivityForResult( intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+
+				/*************************** Camera Intent End ************************/
+
+
+			}    
+
+		});
 	}
 
-	/**
-	 * Click method to handle user pressing button to launch camera
-	 */
-	public void onClick(View v) {
-		if (v.getId() == R.id.capture_btn) {     
-			try {
-				//use standard intent to capture an image
-				Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-				//we will handle the returned data in onActivityResult
-				startActivityForResult(captureIntent, CAMERA_CAPTURE);
-			}
-			catch(ActivityNotFoundException anfe){
-				//display an error message
-				String errorMessage = "Whoops - your device doesn't support capturing images!";
-				Toast toast = Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT);
-				toast.show();
+
+	@Override
+	protected void onActivityResult( int requestCode, int resultCode, Intent data)
+	{
+		if ( requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
+
+			if ( resultCode == RESULT_OK) {
+
+				/*********** Load Captured Image And Data Start ****************/
+
+				String imageId = convertImageUriToFile( imageUri,CameraActivity);
+
+
+				//  Create and excecute AsyncTask to load capture image
+
+				new LoadImagesFromSDCard().execute(""+imageId);
+
+				/*********** Load Captured Image And Data End ****************/
+
+
+			} else if ( resultCode == RESULT_CANCELED) {
+
+				Toast.makeText(this, " Picture was not taken ", Toast.LENGTH_SHORT).show();
+			} else {
+
+				Toast.makeText(this, " Picture was not taken ", Toast.LENGTH_SHORT).show();
 			}
 		}
 	}
 
-	/**
-	 * Handle user returning from both capturing and cropping the image
-	 */
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (resultCode == RESULT_OK) {
-			//user is returning from capturing an image using the camera
-			if(requestCode == CAMERA_CAPTURE){
-				//get the Uri for the captured image
-				picUri = data.getData();
-				//carry out the crop operation
-				performCrop();
-			}
-			//user is returning from cropping the image
-			else if(requestCode == PIC_CROP){
-				//get the returned data
-				Bundle extras = data.getExtras();
-				//get the cropped bitmap
-				Bitmap thePic = extras.getParcelable("data");
-				//retrieve a reference to the ImageView
-				ImageView picView = (ImageView)findViewById(R.id.picture);
-				//display the returned cropped image
-				picView.setImageBitmap(thePic);
-			}
-		}
-	}
 
-	/**
-	 * Helper method to carry out crop operation
-	 */
-	private void performCrop(){
-		//take care of exceptions
+	/************ Convert Image Uri path to physical path **************/
+
+	public static String convertImageUriToFile ( Uri imageUri, Activity activity )  {
+
+		Cursor cursor = null;
+		int imageID = 0;
+
 		try {
-			//call the standard crop action intent (the user device may not support it)
-			Intent cropIntent = new Intent("com.android.camera.action.CROP"); 
-			//indicate image type and Uri
-			cropIntent.setDataAndType(picUri, "image/*");
-			//set crop properties
-			cropIntent.putExtra("crop", "true");
-			//indicate aspect of desired crop
-			cropIntent.putExtra("aspectX", 1);
-			cropIntent.putExtra("aspectY", 1);
-			//indicate output X and Y
-			cropIntent.putExtra("outputX", 256);
-			cropIntent.putExtra("outputY", 256);
-			//retrieve data on return
-			cropIntent.putExtra("return-data", true);
-			//start the activity - we handle returning in onActivityResult
-			startActivityForResult(cropIntent, PIC_CROP);  
+
+			/*********** Which columns values want to get *******/
+			String [] proj={
+					MediaStore.Images.Media.DATA,
+					MediaStore.Images.Media._ID,
+					MediaStore.Images.Thumbnails._ID,
+					MediaStore.Images.ImageColumns.ORIENTATION
+			};
+
+			cursor = activity.managedQuery(
+
+					imageUri,         //  Get data for specific image URI
+					proj,             //  Which columns to return
+					null,             //  WHERE clause; which rows to return (all rows)
+					null,             //  WHERE clause selection arguments (none)
+					null              //  Order-by clause (ascending by name)
+
+					);
+
+			//  Get Query Data
+
+			int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID);
+			int columnIndexThumb = cursor.getColumnIndexOrThrow(MediaStore.Images.Thumbnails._ID);
+			int file_ColumnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+
+			//int orientation_ColumnIndex = cursor.
+			//    getColumnIndexOrThrow(MediaStore.Images.ImageColumns.ORIENTATION);
+
+			int size = cursor.getCount();
+
+			/*******  If size is 0, there are no images on the SD Card. *****/
+
+			if (size == 0) {
+
+
+				imageDetails.setText("No Image");
+			}
+			else
+			{
+
+				int thumbID = 0;
+				if (cursor.moveToFirst()) {
+
+					/**************** Captured image details ************/
+
+					/*****  Used to show image on view in LoadImagesFromSDCard class ******/
+					imageID     = cursor.getInt(columnIndex);
+
+					thumbID     = cursor.getInt(columnIndexThumb);
+
+					String Path = cursor.getString(file_ColumnIndex);
+
+					//String orientation =  cursor.getString(orientation_ColumnIndex);
+
+					String CapturedImageDetails = " Detalles de captura : \n\n"
+							+" ID Imagen:"+imageID+"\n"
+							+" ID Vista:"+thumbID+"\n"
+							+" Ubicación :"+Path+"\n";
+
+					// Show Captured Image detail on activity
+					imageDetails.setText( CapturedImageDetails );
+
+				}
+			}    
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
 		}
-		//respond to users whose devices do not support the crop action
-		catch(ActivityNotFoundException anfe){
-			//display an error message
-			String errorMessage = "Whoops - your device doesn't support the crop action!";
-			Toast toast = Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT);
-			toast.show();
+
+		// Return Captured Image ImageID ( By this ImageID Image will load from sdcard )
+
+		return ""+imageID;
+	}
+
+
+	/**
+	 * Async task for loading the images from the SD card.
+	 *
+	 * @author Android Example
+	 *
+	 */
+
+	// Class with extends AsyncTask class
+
+	public class LoadImagesFromSDCard  extends AsyncTask<String, Void, Void> {
+
+		private ProgressDialog Dialog = new ProgressDialog(MainActivity.this);
+
+		Bitmap mBitmap;
+
+		protected void onPreExecute() {
+			/****** NOTE: You can call UI Element here. *****/
+
+			// Progress Dialog
+			Dialog.setMessage(" Cargando imagen ...");
+			Dialog.show();
 		}
+
+
+		// Call after onPreExecute method
+		protected Void doInBackground(String... urls) {
+
+			Bitmap bitmap = null;
+			Bitmap newBitmap = null;
+			Uri uri = null;       
+
+
+			try {
+
+				/**  Uri.withAppendedPath Method Description
+				 * Parameters
+				 *    baseUri  Uri to append path segment to
+				 *    pathSegment  encoded path segment to append
+				 * Returns
+				 *    a new Uri based on baseUri with the given segment appended to the path
+				 */
+
+				uri = Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "" + urls[0]);
+
+				/**************  Decode an input stream into a bitmap. *********/
+				bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
+
+				if (bitmap != null) {
+
+					/********* Creates a new bitmap, scaled from an existing bitmap. ***********/
+
+					newBitmap = Bitmap.createScaledBitmap(bitmap, 170, 170, true);
+
+					bitmap.recycle();
+
+					if (newBitmap != null) {
+
+						mBitmap = newBitmap;
+					}
+				}
+			} catch (IOException e) {
+				// Error fetching image, try to recover
+
+				/********* Cancel execution of this task. **********/
+				cancel(true);
+			}
+
+			return null;
+		}
+
+
+		protected void onPostExecute(Void unused) {
+
+			// NOTE: You can call UI Element here.
+
+			// Close progress dialog
+			Dialog.dismiss();
+
+			if(mBitmap != null)
+			{
+				// Set Image to ImageView  
+
+				showImg.setImageBitmap(mBitmap);
+			}  
+
+		}
+
 	}
 }

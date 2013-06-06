@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<!--
+  Google HTML5 slide template
+
+  Authors:
+           Miguel Vega (contents)
+           Luke Mahé (code)
+           Marcin Wichary (code and design)
+           
+           Dominic Mazzoni (browser compatibility)
+           Charles Chen (ChromeVox support)
+
+  URL: http://code.google.com/p/html5slides/
+-->
+
+<html>
+<head>
+    <title>Presentation</title>
+
+    <meta charset='utf-8'>
+
+    <!--
+    <meta charset='ISO-8859-1'>
+    -->
+    <script
+            src='lib/slides.js'></script>
+</head>
+<style type="text/css">
+    a {
+        text-decoration: none;
+    }
+
+    article h1 {
+        line-height: 1.5;
+    }
+
+    ol li::before {
+        display: none;
+    }
+
+    body article.agenda {
+        line-height: 1.5;
+    }
+
+    .agenda .current {
+        font-weight: bold;
+        color: black;
+    }
+
+    .https {
+        color: #bbbbbb;
+    }
+
+    .request {
+        color: black;
+    }
+
+    article.agenda:not(.start) {
+        color: #ccc;
+    }
+
+    article.biglogo {
+        background: white url(images/big-logo.png) 50% 50% no-repeat;
+
+        background-size: 800px;
+    }
+
+    .slides > article:not(.nobackground):not(.biglogo) {
+        background: url(images/colorbar.png) 0 610px repeat-x, url(images/big-logo.png) 640px 625px no-repeat;
+
+        background-size: 100%, 225px;
+
+        background-color: white;
+    }
+
+    .slides.layout-widescreen > article:not(.nobackground):not(.biglogo),
+    .slides.layout-faux-widescreen > article:not(.nobackground):not(.biglogo) {
+        background-position-x: 0, 840px;
+    }
+    .build li i{
+        color: #1ec7e6;
+    }
+</style>
+<body style='display: none'>
+
+<!--<section class='slides layout-regular template-default'>-->
+<!--<section class='slides'>-->
+<section class='slides layout-widescreen'>
+
+<!-- Your slides (<article>s) go here. Delete or comment out the
+     slides below. -->
+<article class='biglogo'>
+</article>
+
+<article>
+    <h1>
+        Desarrollo de Aplicaciones Android
+        <br>
+        "5. Procesamiento de Servicios"
+    </h1>
+
+    <p>
+        Miguel Vega
+        <br>
+        Mayo, 2013
+    </p>
+</article>
+
+<article>
+    <h3>Agenda</h3>
+    <ul class="build">
+        <li>Servicios</li>
+        <li>Conexión a Servicios Existentes</li>
+        <li>Threads, Handler y AsyncTask</li>
+    </ul>
+</article>
+<!--
+END, introduction
+-->
+
+<article>
+    <h2>
+        Desarrollo de aplicaciones Android. <span style="font-size: 50px; color: #465886;">Servicios</span>
+    </h2>
+</article>
+
+<article class="agenda">
+    <h3>Servicios</h3>
+    <ol>
+        <li class="current"><strong>Creación y Ejecución de Servicios</strong></li>
+        <li>Conexión a Servicios Existentes</li>
+        <li>Threads, Handlers y AsyncTasks</li>
+    </ol>
+</article>
+
+<article>
+    <h3>Servicios</h3>
+
+    <ul class="build">
+        <li>Son componentes que corren en background</li>
+        <li>Basado en permisos</li>
+        <li>Una aplicación puede consumir y exponer sus propios servicios</li>
+        <pre>
+            getSystemService()
+        </pre>
+    </ul>
+</article>
+
+<article>
+    <h3>Nuevos Servicios</h3>
+
+    <ul class="build">
+        <li>Corren en con la prioridad mas alta.</li>
+        <li>Poseen mayor prioridad que Activities inactivos o invisibles</li>
+        <li>Permite diseñar aplicaciones muy funcionales</li>
+        <li>Proveer data instantánea desde cualquier aplicación en cualquier momento</li>
+    </ul>
+</article>
+
+<article>
+    <h3>Nuevos Servicios</h3>
+
+    <ul class="build">
+        <li>Un servivcio debe ser definido en AndroidManifest.xml</li>
+        <pre>
+&lt;service
+        android:name="MiServicio"
+        android:icon="@drawable/algun-icono"
+        android:label="Srevicio"
+        &gt;
+&lt;/service&gt;
+        </pre>
+        <li></li>
+        <li></li>
+    </ul>
+</article>
+
+<article>
+    <h3>Nuevos Servicios</h3>
+
+    <ul class="build">
+        <li>La clase implementadora, se extender de la clase Service</li>
+        <pre>
+public class MiServicio extends Service {
+
+  @Override
+  public int onStartCommand(Intent intent, int flags, int startId) {
+    //TODO algo que hacer
+    return Service.START_NOT_STICKY;
+  }
+
+  @Override
+  public IBinder onBind(Intent intent) {
+  //TODO para comunicacion, regresar una implementación IBinder
+    return null;
+  }
+}
+        </pre>
+    </ul>
+</article>
+<article>
+    <h3>Nuevos Servicios</h3>
+
+    <ul class="build">
+        <li>Por defecto un servicio corre en el mismo hilo que la aplicación</li>
+        <li>Para implementar varias tareas por detrás, se necesita un procesamiento asíncrono en el <i>servicios</i>
+        </li>
+        <li>Los servicios que corren en la aplicación son denominados Servicios locales</li>
+    </ul>
+</article>
+<article>
+    <h3>Nuevos Servicios</h3>
+
+    <ul class="build">
+        <li>Asimismo, podemos ejecutar nuestro servicio en un proceso separado.</li>
+        <pre>
+&lt;service
+        android:name="MiServicio"
+        <b>android:process=":mi_proceso"</b>
+        android:icon="@drawable/algun-icono"
+        android:label="Srevicio"
+        &gt;
+&lt;/service&gt;
+        </pre>
+        <li>":", indica a Android que el servicio es local</li>
+        <li>Si no existiera ":", se trata de un servicio global</li>
+    </ul>
+</article>
+<article>
+    <h3>Nuevos Servicios</h3>
+
+    <ul class="build">
+        <li>EL servicio no afectara a la ejecución de la aplicación en el caso de procesar largas tareas.</li>
+        <li>Se enecesitará Inperprocess Communicators (IPC)</li>
+        <li><img src="images/tip.jpeg"/></li>
+        <li>Siempre utilizar un procesamiento asíncrono para acceder a un recurso de red</li>
+        <li>Android no permite el acceso a la red en el mismo Hilo principal de un proceso</li>
+    </ul>
+</article>
+<article>
+    <h2>
+        Demostración (un servicio,ejecutarlo y mostrar que esta funcionando)
+    </h2>
+</article>
+
+<article>
+    <h3>¿Cuando ejecutar un Servicio en un proceso separado?</h3>
+
+    <ul class="build">
+        <li>En una misma aplicación, se compraten las mismas direccines de memoria.</li>
+        <li>Así, No afecta a ala aplicación</li>
+        <li>Para ejecutar transacciones de red, reproducir música, I/O, interactuar con un Content Provider</li>
+    </ul>
+</article>
+
+<article>
+    <h3>Ciclo de vida</h3>
+
+    <ul class="build">
+        <li>Esencialmente un servicio puede tomar dos estados</li>
+        <li>
+            <ul>
+                <b>Started</b>
+                <li>se obtiene este estado cuando un componente, por ejemplo una Activity, llama a este servico
+                    a través de <i>startService()</i></li>
+                <li>Correrá indefinidamente, aún cuando el componente ejecutador es destruido</li>
+                <li>No devolverá un resultado al momento de crearse al iniciador</li>
+                <li>En el caso de que el servicio suba o descargue información, se detendrá automáticamente</li>
+            </ul>
+        </li>
+    </ul>
+</article>
+<article>
+    <h3>Ciclo de vida</h3>
+
+    <ul class="build">
+        <li>Esencialmente un servicio puede tomar dos estados</li>
+        <li>
+            <ul>
+                <b>Bound</b>
+                <li>Cuando un componente de aplicación se adjunta a través de <i>bindService()</i></li>
+                <li>Un Bound Service, ofrece un interfaz cliente servidor, permitiendo al componente interactuar con el servicio.</li>
+                <li>Un Bound Service, existe solo mientras el componente este ligado a este</li>
+                <li>Muchos componentes pueden ligarse al servicios, pero en cuanto el ultimo se desligue, el servicio se destruye</li>
+            </ul>
+        </li>
+    </ul>
+</article>
+
+<article>
+    <h3>Ciclo de vida</h3>
+
+    <ul class="build">
+        <li>En resumen...</li>
+        <ol class="builder">
+            <li>Si un componente inicia un servicio llamando a <i>startService()</i>, el servicio sergurá corriendo hasta
+                que el se detenga a sí mismo con <i>stopItsefl()</i> u otro component lo detenga llamando a <i>stopService()</i></li>
+            <li>Si un componente llama <i>bindService()</i> para crear el servicio y <i>onStartCommand()</i> nunca se ha ejecutado,
+            entonces el servicio se ejecuta solo mientras el componente este ligado (utilizando) este servicio. Una vez que el servicio
+            se desliga de todos los clientes, el servicio lo destruye.</li>
+        </ol>
+    </ul>
+</article>
+
+<article>
+    <h3>Ciclo de vida</h3>
+
+    <ul class="build">
+        <img src="http://developer.android.com/images/service_lifecycle.png"/>
+    </ul>
+</article>
+
+<article>
+    <h3>Iniciando un Servicio</h3>
+
+    <ul class="build">
+        <li>Un component de aplicación (Receiver, Service, Activity) puede iniciarlo</li>
+        <pre>
+Intent service = new Intent(context, MiServicio.class);
+context.startService(service);
+        </pre>
+        <li>Si <i>startService()</i> es llamado mientras el servicio esta ejecutandose, el método
+        <i>inStartCommand()</i> también es ejecutado.</li>
+        <li>Este método es llamado en el hilo principal de la UI, asi, no se ejecuta simultáneamente desde mas de un hilo</li>
+    </ul>
+</article>
+
+<article>
+    <h3>Deteniendo un Servicio</h3>
+
+    <ul class="build">
+        <li><i>stopService()</i></li>
+        <li><i>stopItself()</i></li>
+    </ul>
+</article>
+
+<article>
+    <h2>
+        Demostración (bind, many calls, stop & stopitself)
+    </h2>
+</article>
+
+<article>
+    <h3>Ligando actividades y servicios locales</h3>
+
+    <ul class="build">
+        <li>La Activity, utiliza <i>bindService()</i> para iniciar el servicio</li>
+        <li>Este método necesita una implementación de <i>ServiceConnection</i>, regresando un objeto <i>IBinder</i></li>
+        <li><i>IBinder</i> es utilizado por la Activity para comunicarse con el servicio</li>
+        <li>Se puede determinar el comportamiento de reinicio de los sevicios</li>
+        <li><i>Service.START_STICKY</i>, utilizado por servicios que son explícitamente iniciados y detenidos</li>
+        <li><i>Service.START_NOT_STICKY</i>, no son automáticamente reiniciados si son terminados por el S.O. Android</li>
+    </ul>
+</article>
+
+<article>
+    <h3>Iniciando Servicios con AlarmManager</h3>
+
+    <ul class="build">
+        <li>Un Activity, puede determinar ejecutar un Servicio a un determinado momento.</li>
+        <li>El uso de un TimerTask, para ejecutar un Servicio periódicamente no es correcto.</li>
+        <li>EL correcto uso de esta característica, se logra a través de <i>AlarmManager</i></li>
+        <pre>
+Calendar cal = Calendar.getInstance();
+
+Intent intent = new Intent(this, AService.class);
+PendingIntent pintent = PendingIntent.getService(this, 0, intent, 0);
+
+AlarmManager alarm = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+// Start every 30 seconds
+alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), 30*1000, pintent);
+        </pre>
+    </ul>
+</article>
+
+<article>
+    <h2>
+        Demostración (AlarmManager)
+    </h2>
+</article>
+
+
+<article>
+    <h3>Comunicación con Servicios</h3>
+    <ul class="builder">
+        <li><b>Activity - Local Srevice</b>, si el servicio es iniciado en el mismo proceso que el Activity, la comunicación es directa y sencilla</li>
+        <li><b>Receiver</b>, el Activity puede registrar un Receiver, asi el servicio ejecuta los eventos correspondientes</li>
+        <li><b>AIDL</b>, un servicio en un proceso diferente, puede ser accesible a través de IPC (Inter Process Communication),
+            para esto se necesita un NUEVO archivo similar a una interfaz Java, pero este termina con la extensión ".aidl"
+        </li>
+        <li><b>Intent Data & Bundle</b>, los servicios reciben esta información desde el compnente que los inicia</li>
+        <li><b>Handle & Messenger</b>, si el servicio necesita comunicarse de vuelta al Activity, puede recibir un objeto <i>Messenger</i>,
+        a través del Intent. Si el Messenger esta ligado al Activity a través de un <i>Handler</i>, el servicio puede enviar datos
+        a través del Messenger al Activity.</li>
+    </ul>
+</article>
+
+
+<article>
+    <h3>Threads, Handler y AsyncTask</h3>
+    <ul>
+        <li>Todo proceso "lento", debe ejecutarse asíncronamente</li>
+        <li>Si el proceso es largo, es buena práctica proveer alguna retroalimentación al usuario (ej: prograssbar)</li>
+    </ul>
+</article>
+
+<article>
+    <h3>Handler</h3>
+    <ul class="builder">
+        <li>Se registra asímismo durante su creacion con el hilo en el cual ha sido creado</li>
+        <li>Se inicia demtro del hilo principal</li>
+        <li>Para evitar la creación, se puede utilizar instancias ya registradas</li>
+        <li>EL hilopuede enviar mensajes a través de <i>sendMessage(message)</i> ó <i>sendEmptyMessage()</i></li>
+    </ul>
+</article>
+<article>
+    <h3>AsyncTask</h3>
+    <ul class="builder">
+        <li>Encapsula la creación de hilos y handlers</li>
+        <li>Se le jecuta a traves del método <i>execute()</i></li>
+        <li><i>execute()</i> llama a <i>doInBackground()</i> seguidamente a <i>onPostExecute()</i></li>
+        <li>doInBackground(), contiene el codigo que se ejecutará en el hilo</li>
+        <li>onPostExecute(), se sincroniza con el hilo de la UI y permite ser actializada</li>
+    </ul>
+</article>
+
+<article>
+    <h3>Procesamiento concurrente y ciclo de vida</h3>
+    <ul class="builder">
+        <li></li>
+        <li>Se le jecuta a traves del método <i>execute()</i></li>
+        <li><i>execute()</i> llama a <i>doInBackground()</i> seguidamente a <i>onPostExecute()</i></li>
+        <li>doInBackground(), contiene el codigo que se ejecutará en el hilo</li>
+        <li>onPostExecute(), se sincroniza con el hilo de la UI y permite ser actializada</li>
+    </ul>
+</article>
+
+<article>
+    <h2>
+        Demostración
+    </h2>
+</article>
+
+<article>
+    <div style="text-align: center; margin-top: 100px;">
+        <p>em@il:</p>
+
+        <p><b>miguelvega.name@gmail.com</b></p>
+
+        <p/>
+    </div>
+</article>
+
+<article>
+    <h2>Preguntas?</h2>
+</article>
+
+<article class="biglogo">
+</article>
+</section>
+</body>
+</html>

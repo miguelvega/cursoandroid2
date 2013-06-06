@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<!--
+  Google HTML5 slide template
+
+  Authors:
+           Miguel Vega (contents)
+           Luke Mahé (code)
+           Marcin Wichary (code and design)
+           Dominic Mazzoni (browser compatibility)
+           Charles Chen (ChromeVox support)
+
+  URL: http://code.google.com/p/html5slides/
+-->
+
+<html>
+<head>
+    <title>Presentation</title>
+
+    <meta charset='utf-8'>
+
+    <!--
+    <meta charset='ISO-8859-1'>
+    -->
+    <script
+            src='lib/slides.js'></script>
+</head>
+<style type="text/css">
+    a {
+        text-decoration: none;
+    }
+
+    article h1 {
+        line-height: 1.5;
+    }
+
+    ol li::before {
+        display: none;
+    }
+
+    body article.agenda {
+        line-height: 1.5;
+    }
+
+    .agenda .current {
+        font-weight: bold;
+        color: black;
+    }
+
+    .https {
+        color: #bbbbbb;
+    }
+
+    .request {
+        color: black;
+    }
+
+    article.agenda:not(.start) {
+        color: #ccc;
+    }
+
+    article.biglogo {
+        background: white url(images/big-logo.png) 50% 50% no-repeat;
+
+        background-size: 800px;
+    }
+
+    .slides > article:not(.nobackground):not(.biglogo) {
+        background: url(images/colorbar.png) 0 610px repeat-x, url(images/big-logo.png) 640px 625px no-repeat;
+
+        background-size: 100%, 225px;
+
+        background-color: white;
+    }
+
+    .slides.layout-widescreen > article:not(.nobackground):not(.biglogo),
+    .slides.layout-faux-widescreen > article:not(.nobackground):not(.biglogo) {
+        background-position-x: 0, 840px;
+    }
+</style>
+<body style='display: none'>
+
+<!--<section class='slides layout-regular template-default'>-->
+<!--<section class='slides'>-->
+<section class='slides layout-widescreen'>
+
+<!-- Your slides (<article>s) go here. Delete or comment out the
+     slides below. -->
+<article class='biglogo'>
+</article>
+
+<article>
+    <h1>
+        Desarrollo de Aplicaciones Android
+        <br>
+        "4. Elementos de Notificación"
+    </h1>
+
+    <p>
+        Miguel Vega
+        <br>
+        Mayo, 2013
+    </p>
+</article>
+
+<article>
+    <h3>Agenda</h3>
+    <ul class="build">
+        <li>Best Practices</li>
+        <li>Toasts</li>
+        <li>Dialogs</li>
+        <li>Notifications</li>
+    </ul>
+</article>
+<!--
+END, introduction
+-->
+
+<article>
+    <h2>
+        Desarrollo de aplicaciones Android. <span
+            style="font-size: 50px; color: #465886;">Elementos de Notificación</span>
+    </h2>
+</article>
+
+<article class="agenda">
+    <h3>Agenda</h3>
+    <ol>
+        <li class="current"><strong>Best Practices</strong></li>
+        <li>Toasts</li>
+        <li>Dialogs</li>
+        <li>Notifications</li>
+
+
+    </ol>
+</article>
+
+<article>
+    <h3>Best Practices</h3>
+
+    <ol class="build">
+        <li><strong>Cosiderar que el cliente pueda planificar los eventos</strong>
+            <ul>
+                <li>"quiet time"</li>
+            </ul>
+        </li>
+        <li>
+            <strong>Mensajes relevantes</strong>
+            <ul>
+                <li>Debe ser dirigido por el tipo de datos tratados</li>
+                <li>Compras, descargas, acciones de compartir</li>
+                <li>Ubicación</li>
+                <li>CRM que actualiza bandejas</li>
+                <li>Estados de conexiones</li>
+            </ul>
+        </li>
+    </ol>
+</article>
+
+<article>
+    <h3>Best Practices</h3>
+    <ul class="build">
+        <li>
+            <strong>3. Permitir al usuario personalizar su "experiencia"</strong>
+            <ul>
+                <li>Brindar la posibilidad de que desea mostrar</li>
+                <li>Definir las preferencias de que lo que solo me interese (compras, promociones, eventos)</li>
+                <li>ESPN, opr ejemplo permite seleccionar un equipo y que tipos de notificaciones recibir</li>
+            </ul>
+        </li>
+        <li>
+            <strong>4. Ser consistente con el estilo</strong>
+            <ul>
+                <li>Brindar la posibilidad de que desea mostrar</li>
+                <li>Definir las preferencias de que lo que solo me interese (compras, promociones, eventos)</li>
+                <li>ESPN, opr ejemplo permite seleccionar un equipo y que tipos de notificaciones recibir</li>
+            </ul>
+        </li>
+    </ul>
+</article>
+
+<article class="smaller">
+    <h3>Best Practices</h3>
+    <ul class="build">
+        <li>
+            <strong>5. Brindar una experiencia envolvente</strong>
+            <ul>
+                <li>El objetivo es que el usuario vea mas allá de la notificación</li>
+                <li>Por ejemplo una noticia de último momento podría llevar al usuario a una interfaz más rica</li>
+            </ul>
+        </li>
+
+        <li>
+            <strong>6. Adaptable a la situación actual</strong>
+            <ul>
+                <li>Considerar la ubicuidad</li>
+                <li>A nadie le gusta recibir notificaciones todo el tiempo</li>
+                <li>A nadie le gusta recibir ofertas a cada paso que se de</li>
+                <li>Considerar todo lo que se conoce acerca del usuario:</li>
+                <li>
+                    <ol class="build">
+                        <li>Información geográfica</li>
+                        <li>Preferencias de usuario</li>
+                        <li>Historial de compras</li>
+                    </ol>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</article>
+
+
+<article>
+    <h3>Algunas Aplicaciones</h3>
+
+    <ul class="build">
+        <li>StatusAgenda</li>
+
+        <li><img src="http://img.gawkerassets.com/img/18l0lr8ssbwffpng/original.png"/></li>
+
+        <li>Notification Weather</li>
+        <li><img src="http://img.gawkerassets.com/img/18l0lsxyqflw0jpg/original.jpg"/></li>
+    </ul>
+</article>
+
+<article>
+    <h3>Algunas Aplicaciones</h3>
+
+    <ul class="build">
+        <li>Notishare</li>
+
+        <li><img src="http://img.gawkerassets.com/img/18l0m520ln406png/original.png"/></li>
+
+        <li>Informer</li>
+        <li><img src="http://img.gawkerassets.com/img/18l0mhnthrvayjpg/original.jpg"/></li>
+    </ul>
+</article>
+
+<article class="agenda">
+    <h3>Agenda</h3>
+    <ol>
+        <li>Best Practices</li>
+        <li class="current"><strong>Toasts</strong></li>
+        <li>Dialogs</li>
+        <li>Notifications</li>
+        <li>Search</li>
+    </ol>
+</article>
+
+
+<article>
+    <h3>Definición</h3>
+
+    <ul class="build">
+        <li><img src="http://developer.android.com/images/toast.png"/></li>
+        <li>Provee un simple feedback en un pequeño popup</li>
+        <li>Se sitúa en el espacio requerido del mensaje solamente</li>
+        <li>La aplicación sigue activa y funcional</li>
+    </ul>
+</article>
+
+<article>
+    <h3>Personalización</h3>
+
+    <ul class="build">
+        <li>Definir la ubicación del Toast, como se meustra a continuación:</li>
+
+        <pre>
+Toast.makeText(context, text, duration);
+toast.setGravity(Gravity.TOP|Gravity.LEFT, 0, 0);
+toast.show();</pre>
+
+        <li>Es posible crear un layout personalizado de estos Toast</li>
+
+    </ul>
+</article>
+
+<article class="smaller">
+    <h3>Personalización</h3>
+
+    <ul class="build">
+        <li>custom-toast.xml</li>
+        <pre>
+&lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/toast_layout_root"
+              android:orientation="horizontal"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:padding="8dp"
+              android:background="#DAAA"
+        &gt;
+    &lt;ImageView android:src="@drawable/droid"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginRight="8dp"
+            /&gt;
+    &lt;TextView android:id="@+id/text"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:textColor="#FFF"
+            /&gt;
+&lt;/LinearLayout&gt;
+        </pre>
+    </ul>
+</article>
+
+<article class="smaller">
+    <h3>Personalización</h3>
+
+    <ul class="build">
+        <pre>
+LayoutInflater inflater = getLayoutInflater();
+View layout = inflater.inflate(R.layout.custom_toast,
+                               (ViewGroup) findViewById(R.id.toast_layout_root));
+
+TextView text = (TextView) layout.findViewById(R.id.text);
+text.setText("This is a custom toast");
+
+Toast toast = new Toast(getApplicationContext());
+toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+toast.setDuration(Toast.LENGTH_LONG);
+toast.setView(layout);
+toast.show();
+        </pre>
+    </ul>
+</article>
+
+
+<article class="agenda">
+    <h3>Agenda</h3>
+    <ol>
+        <li>Best Practices</li>
+        <li>Toasts</li>
+        <li class="current"><strong>Notifications</strong></li>
+        <li>Dialogs</li>
+    </ol>
+</article>
+
+
+<article>
+    <h3>Definición</h3>
+    <ul class="builder">
+        <li>Un mensaje que se muestra fuera de la area visual de la aplicación</li>
+        <li><img src="http://developer.android.com/images/ui/notifications/iconic_notification.png"/></li>
+        <li><img src="http://developer.android.com/images/ui/notifications/normal_notification.png"/></li>
+    </ul>
+</article>
+
+<article>
+    <h3>Definición</h3>
+    <ul class="build">
+        <li>Permiten a los usuarios estar informados de algun evento</li>
+        <li>Nuevos canales de alerta</li>
+        <li>Pueden incluir acciones rápidas al usuario</li>
+        <li>Flexibles en tamaño y en layout</li>
+        <li><img src="http://developer.android.com/design/media/notifications_pattern_anatomy.png"/></li>
+    </ul>
+</article>
+
+<article>
+    <h3>Notificaciones</h3>
+    <ul class="build">
+        <li>Desde Jelly Bean, se puede proveer de un flag de notificacion.</li>
+
+        <li><img src="http://developer.android.com/design/media/notifications_pattern_priority.png"/></li>
+
+        <pre>
+NotificationManager notificationManager = (NotificationManager)
+  getSystemService(NOTIFICATION_SERVICE);
+        </pre>
+    </ul>
+</article>
+
+
+<article class="agenda">
+    <h3>Agenda</h3>
+    <ol>
+        <li>Best Practices</li>
+        <li>Toasts</li>
+        <li>Notifications</li>
+        <li class="current"><strong>Dialogs</strong></li>
+
+    </ol>
+</article>
+
+<article>
+    <h3>Conceptos</h3>
+    <ul class="builder">
+        <li>Una pequeña ventana sobre la cual el usuario toma un decisión o provee de datos</li>
+        <li><img src="http://developer.android.com/images/ui/dialogs.png"/></li>
+    </ul>
+</article>
+
+<article>
+    <h3>Clase Dialog</h3>
+    <ul class="builder">
+        <li>AlertDialog
+            <ol class="builder">
+                <li>Hasta tres botones</li>
+                <li>Lista seleccionable</li>
+                <li>Layout personalizado</li>
+            </ol>
+        </li>
+        <li><img src="http://www.androidhive.info/wp-content/uploads/2011/09/alert_3_buttons1.png"/></li>
+    </ul>
+</article>
+
+<!--
+<article>
+    <h2>
+        Demostración
+    </h2>
+</article>
+-->
+
+<article>
+    <div style="text-align: center; margin-top: 100px;">
+        <p>em@il:</p>
+
+        <p><b>miguelvega.name@gmail.com</b></p>
+
+        <p/>
+    </div>
+</article>
+
+<article>
+    <h2>Preguntas?</h2>
+</article>
+
+<article class="biglogo">
+</article>
+</section>
+</body>
+</html>

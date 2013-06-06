@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<!--
+  Google HTML5 slide template
+
+  Authors:
+           Miguel Vega (contents)
+           Luke Mahé (code)
+           Marcin Wichary (code and design)
+           
+           Dominic Mazzoni (browser compatibility)
+           Charles Chen (ChromeVox support)
+
+  URL: http://code.google.com/p/html5slides/
+-->
+
+<html>
+<head>
+    <title>Presentation</title>
+
+    <meta charset='utf-8'>
+
+    <!--
+    <meta charset='ISO-8859-1'>
+    -->
+    <script
+            src='lib/slides.js'></script>
+</head>
+<style type="text/css">
+    a {
+        text-decoration: none;
+    }
+
+    article h1 {
+        line-height: 1.5;
+    }
+
+    ol li::before {
+        display: none;
+    }
+
+    body article.agenda {
+        line-height: 1.5;
+    }
+
+    .agenda .current {
+        font-weight: bold;
+        color: black;
+    }
+
+    .https {
+        color: #bbbbbb;
+    }
+
+    .request {
+        color: black;
+    }
+
+    article.agenda:not(.start) {
+        color: #ccc;
+    }
+
+    article.biglogo {
+        background: white url(images/big-logo.png) 50% 50% no-repeat;
+
+        background-size: 800px;
+    }
+
+    .slides > article:not(.nobackground):not(.biglogo) {
+        background: url(images/colorbar.png) 0 610px repeat-x, url(images/big-logo.png) 640px 625px no-repeat;
+
+        background-size: 100%, 225px;
+
+        background-color: white;
+    }
+
+    .slides.layout-widescreen > article:not(.nobackground):not(.biglogo),
+    .slides.layout-faux-widescreen > article:not(.nobackground):not(.biglogo) {
+        background-position-x: 0, 840px;
+    }
+
+    .build li i {
+        color: #1ec7e6;
+    }
+</style>
+<body style='display: none'>
+
+<!--<section class='slides layout-regular template-default'>-->
+<!--<section class='slides'>-->
+<section class='slides layout-widescreen'>
+
+    <!-- Your slides (<article>s) go here. Delete or comment out the
+         slides below. -->
+    <article class='biglogo'>
+    </article>
+
+    <article>
+        <h1>
+            Desarrollo de Aplicaciones Android
+            <br>
+            "7. Multimedia"
+        </h1>
+
+        <p>
+            Miguel Vega
+            <br>
+            Mayo, 2013
+        </p>
+    </article>
+
+    <article>
+        <h3>Agenda</h3>
+        <ul class="build">
+            <li>Audio</li>
+            <li>Camara</li>
+            <li>Interacción con el Usuario</li>
+        </ul>
+    </article>
+    <!--
+    END, introduction
+    -->
+
+    <article>
+        <h3>
+            Desarrollo de aplicaciones Android. <span style="font-size: 50px; color: #465886;">Servicios</span>
+        </h3>
+    </article>
+
+    <article class="agenda">
+        <h3>Reproduciendo Sonido</h3>
+        <ol>
+            <li class="current"><strong>SoundPool</strong></li>
+            <li>Pequeños arcchivos</li>
+            <li>Repetición simultanea</li>
+            <li> < 1M</li>
+            <li>OnLoadCompleteListener</li>
+            <li class="current"><strong>MediaPlayer</strong></li>
+            <li>Recursos grandes, audio y video</li>
+        <pre>
+context.setVolumeControlStream(AudioManager.STREAM_MUSIC);
+        </pre>
+        </ol>
+    </article>
+
+    <article>
+        <h3>
+            Agregando Media a la biblioteca
+        </h3>
+        <ul class="builder">
+            <li>biblioteca principal del S.O.</li>
+        <pre>
+// agregar un nuevo archivo a library
+ContentValues values = new ContentValues(4);
+long current = System.currentTimeMillis();
+values.put(MediaStore.Audio.Media.TITLE, "audio" + audiofile.getName());
+values.put(MediaStore.Audio.Media.DATE_ADDED, (int) (current / 1000));
+values.put(MediaStore.Audio.Media.MIME_TYPE, "audio/3gpp");
+values.put(MediaStore.Audio.Media.DATA, audiofile.getAbsolutePath());
+ContentResolver contentResolver = getContentResolver();
+
+Uri base = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+Uri newUri = contentResolver.insert(base, values);
+
+// Notifiy the media application on the device
+sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, newUri));
+        </pre>
+        </ul>
+    </article>
+
+
+    <article>
+        <h3>
+            <p>Formatos soportados por ANDROID.</p>
+            <p>Protocolos de RED</p>
+        </h3>
+        <ul class="builder">
+            <li>RTSP (RTP, SDP)</li>
+            <li>HTTP/HTTPS progressive streaming</li>
+            <li>HTTP/HTTPS live streaming draft protocol:
+                <ul>
+                    <li>MPEG-2 TS archivos media solamente</li>
+                    <li>Protocol version 3 (Android 4.0 and above)</li>
+                    <li>Protocol version 2 (Android 3.x)</li>
+                    <li>No antes de Android 3.0</li>
+                </ul>
+            </li>
+
+        </ul>
+    </article>
+
+    <article>
+        <h3>
+            Formatos de sonido
+        </h3>
+        <ul class="builder">
+            <li>MP3 (.mp3)</li>
+            <li>Type 0 and 1 (.mid, .xmf, .mxmf)
+                • RTTTL/RTX (.rtttl, .rtx)
+                • OTA (.ota)
+                • iMelody (.imy)</li>
+            <li>WAVE (.wav)</li>
+            <li>...</li>
+        </ul>
+    </article>
+
+    <article>
+        <h3>
+            Codecs Bitmaps
+        </h3>
+        <ul class="builder">
+            <li>JPEG (.jpg)</li>
+            <li>GIF (.gif)</li>
+            <li>PNG (.png)</li>
+            <li>BMP (.bmp)</li>
+            <li>WebP (.webp)</li>
+        </ul>
+    </article>
+
+    <article>
+        <h3>
+            Video
+        </h3>
+        <ul class="builder">
+            <li> • 3GPP (.3gp)</li>
+            <li> • MPEG-4 (.mp4)</li>
+            <li>...</li>
+        </ul>
+    </article>
+
+    <article>
+        <h2>
+            Demostración (audio)
+        </h2>
+    </article>
+
+    <article>
+        <h3>
+            Camara
+        </h3>
+        <ul class="builder">
+            <li>Integracion a la app. nativa de la camara</li>
+            <li>API de camara</li>
+        </ul>
+    </article>
+
+    <article>
+        <h2>
+            Demostración (audio)
+        </h2>
+    </article>
+
+    <article>
+        <h3>
+
+        </h3>
+        <ul class="builder">
+        </ul>
+    </article>
+
+    <article>
+        <h3>
+
+        </h3>
+        <ul class="builder">
+        </ul>
+    </article>
+
+    <article>
+        <div style="text-align: center; margin-top: 100px;">
+            <p>em@il:</p>
+
+            <p><b>miguelvega.name@gmail.com</b></p>
+
+            <p/>
+        </div>
+    </article>
+
+    <article>
+        <h3>Preguntas?</h3>
+    </article>
+
+    <article class="biglogo">
+    </article>
+</section>
+</body>
+</html>

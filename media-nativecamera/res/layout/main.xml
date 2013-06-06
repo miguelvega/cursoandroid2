@@ -1,27 +1,39 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    tools:context=".CameraPhotoCapture" >
+
+    <Button
+        android:id="@+id/photo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fotografía" />
 
     <TextView
-        android:layout_width="fill_parent"
+        android:id="@+id/message"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/intro"
-        android:layout_margin="3dp"
-        android:textStyle="bold" />
-    <Button
-    android:id="@+id/capture_btn"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="@string/capture"
-    />
-    <ImageView 
-        android:id="@+id/picture"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:contentDescription="@string/picture"
-    android:layout_margin="5dp"
-    android:background="@drawable/pic_border" />
+        android:layout_below="@+id/photo"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:text="Presiona el boton para sacar la foto"
+        android:textSize="14dp" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/imageDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/message"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp" />
+
+    <ImageView
+        android:id="@+id/showImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageDetails"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
+
+</RelativeLayout>

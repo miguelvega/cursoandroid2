@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<!--
+  Google HTML5 slide template
+
+  Authors: Luke Mahé (code)
+           Marcin Wichary (code and design)
+           
+           Dominic Mazzoni (browser compatibility)
+           Charles Chen (ChromeVox support)
+
+  URL: http://code.google.com/p/html5slides/
+-->
+
+<html>
+<head>
+    <title>Presentation</title>
+
+    <meta charset='utf-8'>
+
+    <!--
+    <meta charset='ISO-8859-1'>
+    -->
+    <script
+            src='lib/slides.js'></script>
+</head>
+<style type="text/css">
+    a {
+        text-decoration: none;
+    }
+
+    article h1 {
+        line-height: 1.5;
+    }
+
+    ol li::before {
+        display: none;
+    }
+
+    body article.agenda {
+        line-height: 1.5;
+    }
+
+    .agenda .current {
+        font-weight: bold;
+        color: black;
+    }
+
+    .https {
+        color: #bbbbbb;
+    }
+
+    .request {
+        color: black;
+    }
+
+    article.agenda:not(.start) {
+        color: #ccc;
+    }
+
+    article.biglogo {
+        background: white url(images/big-logo.png) 50% 50% no-repeat;
+
+        background-size: 800px;
+    }
+
+    .slides > article:not(.nobackground):not(.biglogo) {
+        background: url(images/colorbar.png) 0 610px repeat-x, url(images/big-logo.png) 640px 625px no-repeat;
+
+        background-size: 100%, 225px;
+
+        background-color: white;
+    }
+
+    .slides.layout-widescreen > article:not(.nobackground):not(.biglogo),
+    .slides.layout-faux-widescreen > article:not(.nobackground):not(.biglogo) {
+        background-position-x: 0, 840px;
+    }
+</style>
+<body style='display: none'>
+
+<!--<section class='slides layout-regular template-default'>-->
+<!--<section class='slides'>-->
+<section class='slides layout-widescreen'>
+
+<!-- Your slides (<article>s) go here. Delete or comment out the
+     slides below. -->
+<article class='biglogo'>
+</article>
+
+<article>
+    <h1>
+        Desarrollo de Aplicaciones Android
+        <br>
+        "2. Interactuando con Componentes"
+    </h1>
+
+    <p>
+        Miguel Vega
+        <br>
+        Mayo, 2013
+    </p>
+</article>
+
+<article>
+    <h3>Agenda</h3>
+    <ul class="build">
+        <li>Intent</li>
+        <li>Intent Resolution</li>
+        <li>Intent Filters</li>
+    </ul>
+</article>
+<!--
+END, introduction
+-->
+
+<article>
+    <h2>
+        Desarrollo de aplicaciones Android. <span style="font-size: 50px; color: #465886;">Interacción</span>
+    </h2>
+</article>
+
+<article class="agenda">
+    <h3>Interactuando con Componentes</h3>
+    <ol>
+        <li class="current"><strong>Intent</strong></li>
+        <li>Intent Resolution</li>
+        <li>Intent Filters</li>
+    </ol>
+</article>
+
+<article>
+    <h3>Intent</h3>
+
+    <ul class="build">
+        <li>Mensajes asíncronos de sistema, que permiten solicitar funcionalidades entre componentes dentro del
+            sistema.
+        </li>
+        <li>Notifica hardware (SD Card insertada)</li>
+        <li>Notifica llegada de data (mensaje en Inbox)</li>
+        <li>Notifica eventos de aplicación (activity iniciada desde Menu Principal)</li>
+    </ul>
+</article>
+
+<article>
+    <h3>Intent Explícitos</h3>
+
+    <ul class="build">
+        <li>Define que componente ejecutar el sistema Android</li>
+        <li>Se puede adjuntar data extra para ser recibida por el componente destino</li>
+
+        <pre>
+            Intent intent = new Intent(this, TargetActivity.class);
+            intent.putExtra("key1", "A serializable value to pass");
+            intent.putExtra("key2", 979797);
+        </pre>
+
+        <li>Son usualmente utilizados dentro de la aplicación para la comunicación entre clases</li>
+    </ul>
+</article>
+
+<article>
+    <h3>Intent Implícitos</h3>
+
+    <ul class="build">
+        <li>Define que la acción a ser ejecutada, adjunta a esta, información para su procesamiento</li>
+
+        <pre>
+Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.vogella.com"));
+startActivity(i);
+        </pre>
+
+        <li>Busca todos los componentes registrados en el sistema Android, por Accion y Tipo de Data</li>
+        <li>Si se encuentra solo un componente, este se inicia</li>
+        <li>Si se encuentra mas de un componente, Android solicita una confirmación</li>
+    </ul>
+</article>
+
+<article>
+    <h3>Transferencia de Datos</h3>
+
+    <ul class="build">
+        <li>EL receptor puede obtener estos datos a traves de los métodos:</li>
+
+        <pre>
+    getIntent().getAction();
+
+    getIntent().getData()
+        </pre>
+
+        <li>El método "putExtra" para djuntar información
+            <ul style="margin-top: 10px;">
+                <li>Pares Key/Value</li>
+                <li><i>Key, </i> siempre es String</li>
+                <li><i>Value, </i> primitivo (int, float, etc); String, Bundle, Parceable and Serializable</li>
+            </ul>
+        </li>
+    </ul>
+</article>
+
+<article class="smaller">
+    <h3>Share Intent</h3>
+
+    <ul class="build">
+        <li>Compartir datos con otras personas: Facebook, Google+, Gmail, Twitter.</li>
+
+        <pre>
+Intent intent = new Intent(Intent.ACTION_SEND);
+intent.setType("text/plain");
+intent.putExtra(android.content.Intent.EXTRA_TEXT, "News for you!");
+startActivity(intent);
+        </pre>
+
+        <li>El receptor</li>
+
+        <pre>
+Bundle extras = getIntent().getExtras();
+if (extras == null) {
+    return;
+    }
+// Get data via the key
+String value1 = extras.getString(Intent.EXTRA_TEXT);
+if (value1 != null) {
+  // Do something with the data
+}
+        </pre>
+    </ul>
+</article>
+
+<article class="smaller">
+    <h3>Intent Resolution</h3>
+
+    <ul class="build">
+        <li>Existen tre piezas importantes que el Intent utiliza</li>
+        <li>
+        <ol class="build">
+            <li>action, debe ser listada por el componente como una soportada</li>
+            <li>type, el tipo de data, que se envia. </li>
+            <li>category, la categoria a la que el componente pertenece</li>
+            <pre>
+&lt;category android:name="android.intent.category.LAUNCHER" /&gt;
+&lt;category android:name="android.intent.category.ALTERNATIVE" /&gt;</pre>
+        </ol>
+        </li>
+    </ul>
+</article>
+
+<article style="position: absolute; z-index: 99; padding: 0;">
+    <iframe name="inside" height="430px" width="90%" src="http://developer.android.com/reference/android/content/Intent.html"></iframe>
+</article>
+
+<article class="agenda">
+    <h3>Interactuando con Componentes</h3>
+    <ol>
+        <li>Intent</li>
+        <li class="current"><strong>Intent Resolution</strong></li>
+        <li>Intent Filters</li>
+    </ol>
+</article>
+
+
+<article class="smaller">
+    <h3>Inicio de Intent</h3>
+
+    <ul class="build">
+        <li>
+            <img src="images/startactivity10.png">
+        </li>
+    </ul>
+</article>
+
+<article class="smaller">
+    <h3>Finalización de Intent</h3>
+
+    <ul class="build">
+        <li>
+            <img src="images/startactivity20.png">
+        </li>
+    </ul>
+</article>
+
+
+<article class="smaller">
+    <ul class="build">
+        <pre>
+public void onClick(View view) {
+  Intent i = new Intent(this, ActivityTwo.class);
+  i.putExtra("Value1", "This value one for ActivityTwo ");
+  startActivityForResult(i, REQUEST_CODE);//un request code para identificar nuestra llamada
+}</pre>
+        <pre>
+@Override
+public void finish() {
+  Intent data = new Intent();// Prepare data intent
+  data.putExtra("returnKey", "anything....");
+  setResult(RESULT_OK, data);// Activity finalizada exitosamente
+  super.finish();
+}</pre>
+
+        <pre>
+@Override
+protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+  if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
+    if (data.hasExtra("returnKey")) {
+        ...
+    }
+  }
+}</pre>
+    </ul>
+</article>
+
+
+<article class="agenda">
+    <h3>Interactuando con Componentes</h3>
+    <ol>
+        <li>Intent</li>
+        <li>Intent Resolution</li>
+        <li class="current"><strong>Intent Filters</strong></li>
+    </ol>
+</article>
+
+<article class="smaller">
+    <h3>IntentFilter</h3>
+    <ul>
+        <li>Si se envia un <i>Intent</i> al sistema, este determinara que aplicación utilizar</li>
+        <li>Determina tipos de <i>Intent</i> a los cuales una Activity, Service o BroadCastReceiver debe responder</li>
+        <li>Si un componente no define un intent filter, solo puede ser llamado explícitamente</li>
+        <li>AndroidManifest.xml</li>
+        <pre>
+&lt;activity android:name=".BrowserActivitiy"
+          android:label="@string/app_name"&gt;
+    &lt;intent-filter&gt;
+        &lt;action android:name="android.intent.action.VIEW" /&gt;
+        &lt;category android:name="android.intent.category.DEFAULT" /&gt;
+        &lt;data android:scheme="http"/&gt;
+    &lt;/intent-filter&gt;
+&lt;/activity&gt;
+        </pre>
+    </ul>
+</article>
+
+<article class="smaller">
+    <h3>IntentFilter</h3>
+    <ul class="build">
+        <li>... retomando el tema de SharedIntent</li>
+        <pre>
+&lt;activity
+        android:name=".ActivityTest"
+        android:label="@string/app_name" &gt;
+    &lt;intent-filter&gt;
+        &lt;action android:name="android.intent.action.SEND" /&gt;
+        &lt;category android:name="android.intent.category.DEFAULT" /&gt;
+        &lt;data android:mimeType="text/plain" /&gt;
+    &lt;/intent-filter&gt;
+            </activity&gt;
+        </pre>
+    </ul>
+</article>
+
+<article class="smaller">
+    <h3>Más acerca de Intents</h3>
+    <ul class="build">
+        <li>Pueden usarse para enviar mensajes broadcast al sistema y los BoradcastReceiver, se encargan de
+            escucharlos
+        </li>
+        <li>Se los puede registrar para eventos de sistema (email, call, system boot, etc)</li>
+        <img src="images/tip.jpeg"/>
+        <li><h3>El uso de <i>Parceable</i> es recomendable por sobre el uso de <i>Serializable</i></h3></li>
+        <li><strong><i>asi ...</i></strong></li>
+    </ul>
+</article>
+
+<article class="smaller">
+    <h3>... el uso de nuestros objetos para ser enviados por el sistema, es:</h3>
+    <pre>
+public class Object1 implements Parcelable {
+
+   // parcelable code Object1
+}
+
+public class Object2 implements Parcelable {
+
+    private Object1 obj1;
+    private long longVal;
+
+   // add  Object1 here with getter setter
+   // parcelable code for Object2
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(obj1, flags);
+		dest.writeLong(longVal);
+    }
+    private void readFromParcel(Parcel in) {
+        obj1 = in.readParcelable(CustomObject1.class.getClassLoader());
+        longVal = in.readLong();
+    }
+  ............
+}</pre>
+</article>
+
+<!--
+<article>
+    <h2>
+        Demostración
+    </h2>
+</article>
+-->
+
+<article>
+    <div style="text-align: center; margin-top: 100px;">
+        <p>em@il:</p>
+
+        <p><b>miguelvega.name@gmail.com</b></p>
+
+        <p/>
+    </div>
+</article>
+
+<article>
+    <h2>Preguntas?</h2>
+</article>
+
+<article class="biglogo">
+</article>
+</section>
+</body>
+</html>
