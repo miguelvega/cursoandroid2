@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, Todo!</string>
+    <string name="app_name">Pendientes</string>
+    <string name="no_todos">La lista de pendientes esta vacia</string>
+    <string name="menu_insert">Nuevo</string>
+    <string name="menu_delete">Borrar Pendiente</string>
+    <string name="todo_summary">Resumen</string>
+    <string name="todo_description">Borrar Pendiente</string>
+    <string name="todo_edit_summary">Resumen</string>
+    <string name="todo_edit_description">Descripción</string>
+    <string name="todo_edit_confirm">Guardar</string>
+
+</resources>

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<!--
+  Google HTML5 slide template
+
+  Authors:
+           Miguel Vega (contents)
+           Luke Mahé (code)
+           Marcin Wichary (code and design)
+           
+           Dominic Mazzoni (browser compatibility)
+           Charles Chen (ChromeVox support)
+
+  URL: http://code.google.com/p/html5slides/
+-->
+
+<html>
+<head>
+    <title>Presentation</title>
+
+    <meta charset='utf-8'>
+
+    <!--
+    <meta charset='ISO-8859-1'>
+    -->
+    <script
+            src='lib/slides.js'></script>
+</head>
+<style type="text/css">
+    a {
+        text-decoration: none;
+    }
+
+    article h1 {
+        line-height: 1.5;
+    }
+
+    ol li::before {
+        display: none;
+    }
+
+    body article.agenda {
+        line-height: 1.5;
+    }
+
+    .agenda .current {
+        font-weight: bold;
+        color: black;
+    }
+
+    .https {
+        color: #bbbbbb;
+    }
+
+    .request {
+        color: black;
+    }
+
+    article.agenda:not(.start) {
+        color: #ccc;
+    }
+
+    article.biglogo {
+        background: white url(images/big-logo.png) 50% 50% no-repeat;
+
+        background-size: 800px;
+    }
+
+    .slides > article:not(.nobackground):not(.biglogo) {
+        background: url(images/colorbar.png) 0 610px repeat-x, url(images/big-logo.png) 640px 625px no-repeat;
+
+        background-size: 100%, 225px;
+
+        background-color: white;
+    }
+
+    .slides.layout-widescreen > article:not(.nobackground):not(.biglogo),
+    .slides.layout-faux-widescreen > article:not(.nobackground):not(.biglogo) {
+        background-position-x: 0, 840px;
+    }
+
+    .build li i {
+        color: #1ec7e6;
+    }
+</style>
+<body style='display: none'>
+
+<!--<section class='slides layout-regular template-default'>-->
+<!--<section class='slides'>-->
+<section class='slides layout-widescreen'>
+
+    <!-- Your slides (<article>s) go here. Delete or comment out the
+         slides below. -->
+    <article class='biglogo'>
+    </article>
+
+    <article>
+        <h1>
+            Desarrollo de Aplicaciones Android
+            <br>
+            "8. Acceso a Datos"
+        </h1>
+
+        <p>
+            Miguel Vega
+            <br>
+            Junio, 2013
+        </p>
+    </article>
+
+    <article class="agenda">
+        <h3>Agenda</h3>
+        <ol class="build">
+            <li class="current">SQLite</li>
+            <li>Content Providers</li>
+            <li>Web Services</li>
+        </ol>
+    </article>
+    <!--
+    END, introduction
+    -->
+
+    <article>
+        <h3>SQLite</h3>
+        <ul class="builder">
+            <img src="http://www.sqlite.org/images/sqlite370_banner.gif"/>
+            <li><a href="http://www.sqlite.org/">SQLite</a></li>
+
+            <li>Una pequeña base de datos relacional embebido</li>
+            <li>Se guarda como un simple archivo dentro del storage local</li>
+            <li>No es un servidor</li>
+            <li>Sólo requiere de 250Kb en memoria cuando se ejecuta</li>
+        </ul>
+    </article>
+
+    <article>
+        <h3>SQLite + Android</h3>
+        <ul class="builder">
+
+            <li>No se necesita administración adicional</li>
+            <li>Sólo se enecesita definir los statements</li>
+            <li>Acceder a una base de datos es acceder al Systema de Archivos</li>
+            <li>Utilizar siempre un AsyncTask!!!</li>
+        </ul>
+    </article>
+
+    <article>
+        <h3>SQLite + Android</h3>
+        <ul class="builder">
+            <li>Si la app crea una base de datos, esto se crea en:</li>
+            <pre>
+DATA/data/APP_NAME/databases/FILENAME
+            </pre>
+            <li><i>DATA, </i>Environment.getDataDirectory()</li>
+            <li><i>APP_NAME, </i>nombre aplicación</li>
+        </ul>
+    </article>
+    <article>
+        <h3>SQLiteOpenHelper</h3>
+        <ul>
+            <pre>super(dbName, version)</pre>
+            <li><i>onCreate()</i></li>
+            <li><i>onUpgrade()</i></li>
+            <li><i>getReadableDatabase()</i></li>
+            <li><i>getWritableDatabase()</i></li>
+        </ul>
+    </article>
+
+    <article>
+        <h3>SQLiteOpenHelper</h3>
+        <ul>
+            <li>open, query, update and close</li>
+            <li>execSQL(), para ejecutar SQL statements</li>
+            <li> ContentValues, para pasar datos, {columna, valor}</li>
+            <li> Queries
+                <ul class="builder">
+                    <li>query</li>
+                    <li>rawQuery</li>
+                    <li>SQLiteQueryBuilder</li>
+                </ul>
+            </li>
+        </ul>
+    </article>
+
+    <article>
+        <h3>SQLiteOpenHelper</h3>
+        <ul>
+            <pre>
+Cursor cursor = getReadableDatabase().
+  rawQuery("select * from todo where _id = ?", new String[] { id });
+            </pre>
+
+            <pre>
+return database.query(DATABASE_TABLE,
+  new String[] { KEY_ROWID, KEY_CATEGORY, KEY_SUMMARY, KEY_DESCRIPTION },
+  null, null, null, null, null);
+            </pre>
+        </ul>
+    </article>
+
+    <article>
+        <h3>Cursor</h3>
+        <ul>
+            <li>Resultado, conjunto de datos
+                <ul>
+                    <li>getCount()</li>
+                    <li>moveToFirst()</li>
+                    <li>moveToNext()</li>
+                    <li>isAfterLast()</li>
+                    <li>getColumnIndex(colName)</li>
+                    <li>get[Type](int)</li>
+                    <li>close()</li>
+                </ul>
+            </li>
+            <li></li>
+            <li></li>
+        </ul>
+    </article>
+
+    <article>
+        <h2>
+            Demostración
+        </h2>
+    </article>
+
+    <article class="agenda">
+        <h3>Agenda</h3>
+        <ol>
+            <li>SQLite</li>
+            <li class="current">Content Providers</li>
+            <li>Web Services</li>
+        </ol>
+    </article>
+    <article>
+        <h3>Content Provider</h3>
+        <ol>
+            <li>Acceso un conjunto de datos estructurados</li>
+            <li>Proveen mecanismos de seguridad</li>
+            <li>Conecta data de una aplicación con otro en funcionamiento</li>
+            <li>Se crean Providers si se desea compartir la data con otras aplicaciones</li>
+            <li>Android posee: audio, video, imágenes y contactos</li>
+        </ol>
+    </article>
+
+    <article>
+        <h2>
+            Demostración, Contact Content Provider
+        </h2>
+    </article>
+
+    <article>
+        <h3>Loader</h3>
+        <ol>
+            <li>Permiten cargar data asíncronamente, <i>AsynTaskLoader</i></li>
+            <li>ContentProvider (SQLite) &gt; CursorLoader</li>
+            <li>LoadManager.LoadCallbacks</li>
+            <li>getLoaderManager().initLoader(0, null, callback class)</li>
+            <li>se crea en el método, callbackClassObj.onCreateLoader</li>
+            <li>Cuando se termina de leer la data, se llama al método: callbackClassObjonLoadFinished()</li>
+            <img src="images/tip.jpeg"/>
+            Actualiza tu UI
+            <li>Cuando el Cursor es inválido, se llama al método: callbackClassObj.onLoadReset()</li>
+        </ol>
+    </article>
+
+    <article>
+        <h2>
+            Demostración, Contact Content Provider
+        </h2>
+    </article>
+
+    <article>
+        <div style="text-align: center; margin-top: 100px;">
+            <p>em@il:</p>
+
+            <p><b>miguelvega.name@gmail.com</b></p>
+
+            <p/>
+        </div>
+    </article>
+
+    <article>
+        <h3>Preguntas?</h3>
+    </article>
+
+    <article class="biglogo">
+    </article>
+</section>
+</body>
+</html>
