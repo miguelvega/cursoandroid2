@@ -56,6 +56,8 @@ public class AddRecord extends Activity implements OnClickListener {
 				db.addProduct(pm);
 				Toast.makeText(AddRecord.this, "Registro agregado exitosamente.",
 						Toast.LENGTH_LONG).show();
+				
+				finish();
 			}
 			break;
 

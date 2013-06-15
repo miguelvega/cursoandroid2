@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello"></string>
+    <string name="app_name">Ejemplo Fragments</string>
+    <string name="unknown">#{nro_item}</string>
+    <string name="empty_comment">#{titulo}</string>
+    
+</resources>

@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<!--
+  Google HTML5 slide template
+
+  Authors:
+           Miguel Vega (contents)
+           Luke Mahé (code)
+           Marcin Wichary (code and design)
+           
+           Dominic Mazzoni (browser compatibility)
+           Charles Chen (ChromeVox support)
+
+  URL: http://code.google.com/p/html5slides/
+-->
+
+<html>
+<head>
+    <title>Presentation</title>
+
+    <meta charset='utf-8'>
+
+    <!--
+    <meta charset='ISO-8859-1'>
+    -->
+    <script
+            src='lib/slides.js'></script>
+</head>
+<style type="text/css">
+    a {
+        text-decoration: none;
+    }
+
+    article h1 {
+        line-height: 1.5;
+    }
+
+    ol li::before {
+        display: none;
+    }
+
+    body article.agenda {
+        line-height: 1.5;
+    }
+
+    .agenda .current {
+        font-weight: bold;
+        color: black;
+    }
+
+    .https {
+        color: #bbbbbb;
+    }
+
+    .request {
+        color: black;
+    }
+
+    article.agenda:not(.start) {
+        color: #ccc;
+    }
+
+    article.biglogo {
+        background: white url(images/big-logo.png) 50% 50% no-repeat;
+
+        background-size: 800px;
+    }
+
+    .slides > article:not(.nobackground):not(.biglogo) {
+        background: url(images/colorbar.png) 0 610px repeat-x, url(images/big-logo.png) 640px 625px no-repeat;
+
+        background-size: 100%, 225px;
+
+        background-color: white;
+    }
+
+    .slides.layout-widescreen > article:not(.nobackground):not(.biglogo),
+    .slides.layout-faux-widescreen > article:not(.nobackground):not(.biglogo) {
+        background-position-x: 0, 840px;
+    }
+    .build li i{
+        color: #1ec7e6;
+    }
+</style>
+<body style='display: none'>
+
+<!--<section class='slides layout-regular template-default'>-->
+<!--<section class='slides'>-->
+<section class='slides layout-widescreen'>
+
+<!-- Your slides (<article>s) go here. Delete or comment out the
+     slides below. -->
+<article class='biglogo'>
+</article>
+
+<article>
+    <h1>
+        Desarrollo de Aplicaciones Android
+        <br>
+        "5. Mejorando el Desarrollo"
+    </h1>
+
+    <p>
+        Miguel Vega
+        <br>
+        Junio, 2013
+    </p>
+</article>
+
+<article>
+    <h3>Agenda</h3>
+    <ul class="build">
+        <li>Fragments</li>
+        <li>Debugging</li>
+        <li>Interactuando con dispositivos reales</li>
+    </ul>
+</article>
+<!--
+END, introduction
+-->
+
+<article>
+    <h2>
+        Desarrollo de aplicaciones Android. <span style="font-size: 50px; color: #465886;">Mejorando el desarrollo</span>
+    </h2>
+</article>
+
+
+<article>
+    <h3>Fragments</h3>
+
+    <ul class="build">
+        <li>Componente independiente que se conecta a un Activity</li>
+        <li>Puede ser un componente UI, pero también puede no poseer UI</li>
+        <li>Pueden ser estática o dinámicamente añadidos</li>
+        <li>Encapsula funcionalidad, haciendo fácil su reutilización</li>
+        <li>Posee su propio ciclo de vida</li>
+    </ul>
+</article>
+
+<article>
+    <h3>¿Cuando utilizarlos?</h3>
+
+    <ul class="build">
+        <li>Diferencia entre teléfono y Tablet</li>
+        <li>Existe también diferencia enter portrait y landscape</li>
+    </ul>
+</article>
+
+<article>
+    <h3>¿Cuando utilizarlos?</h3>
+    <img src="http://www.vogella.com/articles/AndroidFragments/images/xfragmentsusage10.png.pagespeed.ic.K9SgocRvuX.png"/>
+</article>
+
+    <article>
+    <h3>¿Cuando utilizarlos?</h3>
+    <img src="http://www.vogella.com/articles/AndroidFragments/images/xfragmentsusage20.png.pagespeed.ic.odwO3UVIuS.png"/>
+</article>
+
+<article>
+    <h3>Para diferentes layout con fragments</h3>
+
+    <ul class="build">
+        <li>En un Activity, utilizar un layout con dos fragmentos para tablet y uno para teléfonos</li>
+        <li>Los fragments no estaran definidos en el archivo de layout, puesto que no pueden ser removidos en runtime</li>
+        <li>Utilizar dos activities para cada fragment en el teléfono.</li>
+        <li>Utilizar el mismo activity para teléfonos, proveyendo de un solo layout para el fragment</li>
+    </ul>
+</article>
+<article>
+    <h3>Definiendo Fragments</h3>
+
+    <ul>
+        <li>ListFragment, DialogFragment, PreferenceFragment o WebViewFragment</li>
+    </ul>
+    <pre>
+
+public class DetailFragment extends Fragment {
+
+  @Override
+  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+      Bundle savedInstanceState) {
+    View view = inflater.inflate(R.layout.fragment_rssitem_detail,
+        container, false);
+    return view;
+  }
+
+  public void setText(String item) {
+    TextView view = (TextView) getView().findViewById(R.id.detailsText);
+    view.setText(item);
+  }
+}
+    </pre>
+</article>
+
+<article>
+    <h3>Definiendo Fragments</h3>
+
+    <ul class="build">
+        <li>El nuevo fragmento puede ser añadido estñaticamente al XML y modificarlo en runtime</li>
+        <li>Para verificar si el fragment es parte del layout:</li>
+        <pre>
+DetailFragment fragment = (DetailFragment) getFragmentManager().
+   findFragmentById(R.id.detail_frag);
+if (fragment==null || ! fragment.isInLayout()) {
+  // start new Activity
+  }
+else {
+  fragment.update(...);
+}
+        </pre>
+    </ul>
+</article>
+
+<article>
+    <h3>Ciclo de vida</h3>
+
+    <ul class="build">
+        <li>Un fragment siempre esta conectado a un activity</li>
+        <li>Si el activity se detiene o destruye, los fragments lo hacen también</li>
+        <li>Crear la UI del fragment en <i>onCreate()</i></li>
+        <li>Usa onActivityCreated, para instanciar objetos que necesitan el Context</li>
+        <li>EL método onStart, es llamado en cuanto la UI del fragment se hace visible</li>
+    </ul>
+</article>
+
+<article>
+    <h3>Comunicación de la aplicación</h3>
+
+    <ul class="build">
+        <li>La comunicación debe ser via el Activity que los utiliza, no entre fragments</li>
+        <li>Definir una interfaz, pcon el fin de que el Activity implemente esta interfaz</li>
+        <li>Comprobar esto en el método onAttach()</li>
+        <li>Por ejemplo, si el fragment tiene que pasar datos al Activity, se puede hacer los siguiente:</li>
+    </ul>
+</article>
+
+<article class="smaller">
+    <pre style="font-size: 10px">
+public class MyListFragment extends Fragment {
+  private OnItemSelectedListener listener;
+  @Override
+  public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+    ...
+  }
+  public interface OnItemSelectedListener {
+    public void onRssItemSelected(String link);
+  }
+  @Override
+  public void onAttach(Activity activity) {
+    super.onAttach(activity);
+    if (activity instanceof OnItemSelectedListener) {
+      listener = (OnItemSelectedListener) activity;
+    } else {
+      throw new ClassCastException(activity.toString()
+          + " must implemenet MyListFragment.OnItemSelectedListener");
+    }
+  }
+
+  // May also be triggered from the Activity
+  public void updateDetail() {
+    // Create a string, just for testing
+    String newTime = String.valueOf(System.currentTimeMillis());
+
+    // Inform the Activity about the change based
+    // interface defintion
+    listener.onRssItemSelected(newTime);
+  }
+}</pre>
+</article>
+
+<article>
+    <h3>Persistencia en Fragments</h3>
+
+    <ul class="build">
+        <li><i>retainState(true)</i>, mantiene la data del fragmento entre configuraciones si y solo si el fragment no ha sido añadido al backstack</li>
+        <li>Mejor aun mantener la data como variable de clase</li>
+        <li>Si los datos que se quiere almacenar son soportados por Bundle, se puede utilizar <i>onSaveInstanceState()</i></li>
+        <li>Y para recuperar esta data, utilizar el método <i>onActivityCreated()</i></li>
+    </ul>
+</article>
+
+<article>
+    <h3>Modificando fragmentes en runtime</h3>
+
+    <ul class="build">
+        <li>Agregar, quitar y reemplazar fragments</li>
+        <li>FragmentManager, FragmentTransaction</li>
+        <li>Se debe contar con un contenedor en el XML del layout para agregarlos dinámicamente, por ejemplo un FrameLayout</li>
+        <pre>
+FragmentTransaction ft = getFragmentManager().beginTransaction();
+ft.replace(R.id.your_placehodler, new YourFragment());
+ft.commit();
+        </pre>
+        <li>Se reemplazará un fragment existente</li>
+    </ul>
+</article>
+
+<article>
+    <h3>Animación para las transiciones</h3>
+
+    <ul class="build">
+        <li>Property animation API, <i>setCustomAnimations()</i></li>
+        <li>Muchas animaciones estándar a través del método <i>setTransition</i>;  FragmentTransaction.TRANSIT_FRAGMENT_*</li>
+        <li>Se puede utilizar FragmentTransition para animar el backstack, al momento de presionar el boton de volver</li>
+        <li>Para esto se utiliza el método addToBackStack en el objeto FragmentTransition</li>
+    </ul>
+</article>
+
+<article>
+    <h3>Fragments sin U.I.</h3>
+
+    <ul class="build">
+        <li>Esto para encapsular algunos estados entre cambios de configuración o para procesar una tarea en background</li>
+        <li>Para retener un fragmento entre ambios de configuración de un ACtivity, se utuluza el método setRetainInstance()</li>
+        <li>Para agregar este fragment al activity, se debe utilizar el metodo add() del FragmentManager</li>
+        <li>Para acceder a este después, se utiliza un tag, por el cual se lo ubicará <i>FragmentManager.findFragmentByTag</i></li>
+    </ul>
+</article>
+
+
+<article>
+    <h2>
+        Demostración
+    </h2>
+</article>
+
+<article>
+    <h3>Y las versiones anteriores?</h3>
+
+    <ul class="build">
+        <iframe src="http://developer.android.com/tools/extras/support-library.html"></iframe>
+    </ul>
+</article>
+
+<article>
+    <h3>Pruebas Unitarias</h3>
+
+    <ul class="build">
+        <li>Se puede crear un proyecto desde cer o reutilizar un ejemplo</li>
+        <li><b>Click Derecho > Android Tools > New Test Project...</b></li>
+        <img src="http://d339vfjsz5zott.cloudfront.net/6_AndroidJUnitTesting/android_junit_testing_test.jpg"/>
+    </ul>
+</article>
+
+<article>
+    <h3>Configuración del proyecto</h3>
+
+    <ul class="build">
+        <img src="http://d339vfjsz5zott.cloudfront.net/6_AndroidJUnitTesting/android_junit_testing_project.jpg"/>
+        <li>Mejorar la covertura de pruebas</li>
+        <li>Probar funcionalidad de aplicación</li>
+        <li>Validar la funcionalidad de la aplicación</li>
+    </ul>
+</article>
+
+<article>
+    <h3>Creando un test case</h3>
+
+    <ul class="build">
+        <img src="http://d339vfjsz5zott.cloudfront.net/6_AndroidJUnitTesting/android_junit_testing_case.jpg"/>
+    </ul>
+</article>
+
+<article>
+    <h3>Creando un test case</h3>
+
+    <ul class="build">
+        <li>Junit 4</li>
+        <img src="http://d339vfjsz5zott.cloudfront.net/6_AndroidJUnitTesting/android_junit_testing_case_2.jpg"/>
+    </ul>
+</article>
+
+<article>
+    <div style="text-align: center; margin-top: 100px;">
+        <p>em@il:</p>
+
+        <p><b>miguelvega.name@gmail.com</b></p>
+
+        <p/>
+    </div>
+</article>
+
+<article>
+    <h2>Preguntas?</h2>
+</article>
+
+<article class="biglogo">
+</article>
+</section>
+</body>
+</html>

@@ -1,5 +1,10 @@
 package org.mvp.labs.android.data.sqlite.util;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -55,7 +60,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		contentValues.put(colProductPrice, product.productprice);
 		db.insert(PRODUCTTABLE, null, contentValues);
 		db.close();
-
 	}
 
 	// update
@@ -63,23 +67,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public void updateProduct(ProductBean product) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		ContentValues contentValues = new ContentValues();
+		
 		contentValues.put(colProductName, product.productname);
-
 		contentValues.put(colProductPrice, product.productprice);
+		
 		db.update(PRODUCTTABLE, contentValues, colProductId+"="
 				+ product.id, null);
-
+		
 		db.close();
 	}
 
 	public void emptyProduct() {
-		try {
-			SQLiteDatabase db = this.getWritableDatabase();
+					SQLiteDatabase db = this.getWritableDatabase();
 			db.execSQL("delete from "+PRODUCTTABLE);
 			db.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		
 	}
 
 	public void removeProduct(int productid) {

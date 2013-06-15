@@ -62,7 +62,7 @@ public class MainActivity extends Activity implements OnClickListener{
 				
 				//Log.v("MAIN_ACTIVITY", json.getString("time_in_secs"));
 				
-				text += "\n\n"+json.getJSONObject(0).getString("time_in_secs");
+				text += "\n\n"+json.getJSONObject(0).getString("quote");
 				
 			} catch (Exception e) {
 				return e.getLocalizedMessage();

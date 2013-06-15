@@ -24,7 +24,8 @@ import android.widget.SimpleCursorAdapter;
 import android.app.Activity;
 import android.view.Menu;
 
-public class MainActivity extends ListActivity implements LoaderManager.LoaderCallbacks<Cursor>{
+public class MainActivity extends ListActivity 
+implements LoaderManager.LoaderCallbacks<Cursor>{
 	private static final int ACTIVITY_CREATE = 0;
 	private static final int ACTIVITY_EDIT = 1;
 	private static final int DELETE_ID = Menu.FIRST + 1;
